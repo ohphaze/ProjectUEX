@@ -446,7 +446,7 @@ async function getMarketplaceItemAutocomplete(query, limit = 25) {
 
   const pushSimple = (label, slug) => {
     const name = label || slug;
-    const value = `slug::${slug || _slugify(label)}`;
+    const value = slug || _slugify(label);
     if (!name || !value) return;
     const key = `${name}::${value}`;
     if (seen.has(key)) return;
@@ -473,7 +473,7 @@ async function getMarketplaceItemAutocomplete(query, limit = 25) {
         if (res.success && Array.isArray(res.data)) {
           for (const l of res.data) {
             const name = l.title || l.type || l.slug || String(l.id_item || l.id);
-            const value = `slug::${l.slug || _slugify(name)}${(l.id_item || l.id) ? `||id::${l.id_item || l.id}` : ''}`;
+            const value = l.slug || _slugify(name);
             const key = `${name}::${value}`;
             if (!seen.has(key)) {
               seen.add(key);
@@ -490,7 +490,7 @@ async function getMarketplaceItemAutocomplete(query, limit = 25) {
         if (resType.success && Array.isArray(resType.data)) {
           for (const l of resType.data) {
             const name = l.title || l.type || l.slug || String(l.id_item || l.id);
-            const value = `slug::${l.slug || _slugify(name)}${(l.id_item || l.id) ? `||id::${l.id_item || l.id}` : ''}`;
+            const value = l.slug || _slugify(name);
             const key = `${name}::${value}`;
             if (!seen.has(key)) {
               seen.add(key);
