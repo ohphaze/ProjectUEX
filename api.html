@@ -1,0 +1,1138 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<title>Documentation - API 2.0 - UEX</title>
+		<meta charset="UTF-8">
+		<link rel="dns-prefetch" href="//static.uexcorp.space">
+		<link rel="dns-prefetch" href="//assets.uexcorp.space">
+		<link rel="dns-prefetch" href="//s3.amazonaws.com">
+					<link rel="dns-prefetch" href="//d3a1t0pe7zmm0w.cloudfront.net">
+				<link rel="preconnect" href="//static.uexcorp.space">
+		<link rel="preconnect" href="//assets.uexcorp.space">
+		<link rel="preconnect" href="//s3.amazonaws.com">
+					<link rel="preconnect" href="//d3a1t0pe7zmm0w.cloudfront.net">
+				<meta name="robots" content="index, follow">
+		<meta name="title" content="Documentation - API 2.0 - UEX">
+		<meta name="viewport" content="width=device-width, initial-scale=0.9, user-scalable=no, viewport-fit=cover">
+		<meta name="description" content="Dive into the UEX API documentation to grasp its ins and outs. Start building your new application with UEX data">
+		<meta name="keywords" content="api,developer,resources,documentation">
+		<meta property="og:title" content="Documentation - API 2.0 - API 2.0 - UEX">
+		<meta property="og:description" content="Dive into the UEX API documentation to grasp its ins and outs. Start building your new application with UEX data">
+		<meta property="og:image" content="https://static.uexcorp.space/img/logo-social-media.jpg">
+		<meta property="og:url" content="https://uexcorp.space/api/documentation/">
+		<meta name="twitter:card" content="https://static.uexcorp.space/img/logo-social-media.jpg">
+		<meta name="twitter:title" content="Documentation - API 2.0 - API 2.0 - UEX">
+		<meta name="twitter:description" content="Dive into the UEX API documentation to grasp its ins and outs. Start building your new application with UEX data">
+		<meta name="twitter:image" content="https://static.uexcorp.space/img/logo-social-media.jpg"> 
+		<meta name="msvalidate.01" content="0034DA9D05D6B47F7B2A54216BA1D84C" />
+		<link rel="canonical" href="https://uexcorp.space/api/documentation/">
+		<link rel="icon" type="image/x-icon" href="https://static.uexcorp.space/img/favicon.ico">
+		<link rel="apple-touch-icon" href="https://static.uexcorp.space/img/icon-touch.png">
+		<link rel="stylesheet" href="https://static.uexcorp.space/ui/css/gmx.min.css?commit=c38741">
+		<link rel="stylesheet" href="https://static.uexcorp.space/css/main.min.css?commit=c38741">
+		<link rel="search" type="application/opensearchdescription+xml" href="https://uexcorp.space/opensearch.xml?commit=c38741" title="UEX">
+		<link rel="manifest" href="https://uexcorp.space/manifest.json">
+				<style>
+			
+			:root
+			{
+				--bg-dot: url(https://static.uexcorp.space/img/bg-dot.png);
+				--bg-dot-night: url(https://static.uexcorp.space/img/bg-dot-night.png);
+				--bg-pattern: url(https://static.uexcorp.space/img/bg.png);
+				--bg-pattern-night: url(https://static.uexcorp.space/img/bg-night.png);
+				--bg-noise: url('https://static.uexcorp.space/img/login/bg-noise.png') repeat 0 0;
+				--bg-pirate-icon: url(https://static.uexcorp.space/img/pirate.svg);
+				--bg-no-photo: url(https://static.uexcorp.space/img/no-photo.svg);
+				--bg-confetti: url(https://static.uexcorp.space/img/logo-confetti.svg);
+
+							}
+
+							::-webkit-scrollbar {display: none}
+				html {scrollbar-width: none}
+			 
+
+		</style>
+		<script> 
+			
+const app_code = `uex`;
+const app_url = `https://uexcorp.space/`;
+const app_url_cdn = `https://static.uexcorp.space/`;
+const app_id_user = ``;
+const app_username = ``;
+const app_language = `en-US`;
+const app_version = `UEX System 2.3.1 (c38741)`;
+const current_url = `https://uexcorp.space/api/documentation/`;
+const default_language = `en_US`;
+const params = [];
+const user_agent = ``;
+const __get = [];
+
+if (localStorage && localStorage.getItem(`account_ui_filter_contrast`) && localStorage.getItem(`account_ui_filter_brightness`) && localStorage.getItem(`account_ui_filter_saturation`)) 
+{	
+	document.documentElement.style.filter = `contrast(${localStorage.getItem(`account_ui_filter_contrast`)}) brightness(${localStorage.getItem(`account_ui_filter_brightness`)}) saturate(${localStorage.getItem(`account_ui_filter_saturation`)})`;
+}
+		</script>
+		<script src="https://static.uexcorp.space/js/functions.min.js?commit=c38741"></script>
+		<script src="https://static.uexcorp.space/js/events.min.js?commit=c38741"></script>
+		<script src="https://static.uexcorp.space/js/pace.js?commit=c38741" async></script>
+	</head>
+	<body class="main-template is-focused no-selection actions-show is- state-ok      module-api-documentation    has-breadcrumb   ">
+		<div class="stripes no-white-space" id="main-stripes" data-nosnippet>
+
+	
+	
+	
+		
+		
+
+		
+	
+	
+	
+	
+</div>
+		<script src="https://static.uexcorp.space/js/definitions.min.js?commit=c38741"></script>
+		<div class="meta-description">Dive into the UEX API documentation to grasp its ins and outs. Start building your new application with UEX data</div>
+		<div class="container relative">
+			
+	<!-- Gradient -->
+
+	<div class="gradient"></div>
+
+	<!-- Top -->
+
+	<header class="no-selection">
+		<section class="upper line-detail line-detail-lb">
+						<div class="ticker">
+				<div class="holder" id="news-ticker-list">
+																									<p>Star Citizen 4.3.1</p>
+					<p>New Babbage, Sep 24, 2955 &mdash; Welcome to UEX</p>
+				</div>
+			</div>
+			<div class="donation">
+							</div>
+			<div class="tools">
+				<div class="holder">
+					<a href="javascript:void(false)" id="header-icon-inactive" class="translucent" style="display: none">
+						<i class="fa fa-coffee"></i>
+					</a>
+					<a href="javascript:void(false)" id="header-icon-offline" class="text-red blink" tooltip="Not connected to UEX" tooltip-bottom tooltip-right style="display: none">
+						<i class="fa fa-plug"></i>
+					</a>
+																																																			<a href="https://www.patreon.com/uexcorp/membership" target="_blank" tooltip-right tooltip-bottom tooltip="Enjoying UEX? Support Our Growth" class="">
+							<i class="fa fa-heart "></i>
+						</a>
+					 
+																<a href="javascript:void(false)" onclick="if (event.metaKey || event.ctrlKey) { window.open('https://uexcorp.space/cli') } else { console_open(); }" tooltip-right tooltip-bottom tooltip="Console">
+							<i class="fa fa-terminal"></i>
+						</a>
+										<a href="https://uexcorp.space/api/documentation/?is_kiosk=1" tooltip-right tooltip-bottom tooltip="Kiosk Mode">
+						<i class="fa fa-expand"></i>
+					</a>
+										<a href="javascript:void(false)" onclick="toggle_night_mode()" tooltip-right tooltip-bottom tooltip="Toggle Night Mode">
+						<i class="fa fa-moon-o"></i>
+					</a>
+				</div>
+			</div>
+			<div class="search">
+				<div class="holder">
+					<input type="search" class="input input-search search-main input-allow-enter autocomplete"  endpoint="https://uexcorp.space/search/json_search_autocomplete" method="post" limit="10" name="q" id="main_search_query" autocomplete="off" maxlength="100" onkeyup="main_search_submit(this, event)" onfocus="this.select()"  value="">
+				</div>
+			</div>
+			<div class="bell">
+				<div class="holder">
+					<a href="javascript:void(false)" id="notifications_bell" class="bell-button" onclick="main_notifications_show({none: `No notifications yet`, see_all: `See all notifications`})" tooltip-right tooltip-bottom tooltip="Notifications">
+						<span class="counter" id="notifications_counter">0</span>
+					</a>
+				</div>
+				<div class="list" id="notifications_popup" style="display: none">
+					<div class="list-holder" id="notifications_list"></div>
+				</div>
+			</div>
+		</section>
+		<section class="middle">
+			<div class="logo relative">
+				<a href="https://uexcorp.space/" class="logo-uex"></a>
+			</div>
+			<div class="menu">
+				<nav id="main-menu">
+														<span class="item   " title="">
+										<i class="fa fa-exchange"></i><span class="no-overflow-text">Trade</span>
+										<span class="menu-sub">
+																									<a href="https://uexcorp.space/commodities" target="" class="set-loading  " title="Star Citizen Commodities List, Prices, Inventory, Stock, SCU, Load Simulation, Availability, Routes">
+															<i class="fa fa-diamond"></i>Commodities 														</a>
+																											<a href="https://uexcorp.space/commodities/locations" target="" class="set-loading  " title="Locations Buying and Selling Commodities In Star Citizen">
+															<i class="fa fa-map-marker"></i>Locations 														</a>
+																											<a href="https://uexcorp.space/commodities/harvestables" target="" class="set-loading  " title="List of Harvestables (Commodities) in the Star Citizen Universe">
+															<i class="fa fa-hand-lizard-o"></i>Harvestables 														</a>
+																											<a href="https://uexcorp.space/commodities/fuel_prices" target="" class="set-loading  " title="Check Fuel Prices in the Star Citizen Universe">
+															<i class="fa fa-tint"></i>Fuel Prices 														</a>
+																											<a href="https://uexcorp.space/trade/price_finder" target="" class="set-loading  " title="Commodities price finder">
+															<i class="fa fa-tag"></i>Price Finder 														</a>
+																											<a href="https://uexcorp.space/trade/routes" target="" class="set-loading  " title="Best routes finder, best supply and demand, best prices">
+															<i class="fa fa-plane"></i>Routes 														</a>
+																							</span>
+									</span>
+																	<span class="item   " title="Community-driven marketplace for buying and selling various items and services">
+										<i class="fa fa-handshake-o"></i><span class="no-overflow-text">Marketplace</span>
+										<span class="menu-sub">
+																									<a href="https://uexcorp.space/marketplace/home" target="" class="set-loading  text-default" title="Community-driven marketplace for buying and selling various items and services">
+															<i class="fa fa-handshake-o"></i>Marketplace 														</a>
+																							</span>
+									</span>
+																	<span class="item   " title="Find where to buy or to sell an item in the game. Shops finder.">
+										<i class="fa fa-male"></i><span class="no-overflow-text">Items</span>
+										<span class="menu-sub">
+																									<a href="https://uexcorp.space/items/home" target="" class="set-loading  text-default" title="Find where to buy or to sell an item in the game. Shops finder.">
+															<i class="fa fa-male"></i>Items 														</a>
+																							</span>
+									</span>
+																	<span class="item   " title="Explore a comprehensive list of all Star Citizen vehicles available">
+										<i class="fa fa-space-shuttle"></i><span class="no-overflow-text">Vehicles</span>
+										<span class="menu-sub">
+																									<a href="https://uexcorp.space/vehicles/home" target="" class="set-loading  text-default" title="Explore a comprehensive list of all Star Citizen vehicles available">
+															<i class="fa fa-space-shuttle"></i>Vehicles 														</a>
+																							</span>
+									</span>
+																	<span class="item   " title="Manage your refinery jobs">
+										<i class="fa fa-diamond"></i><span class="no-overflow-text">Mining</span>
+										<span class="menu-sub">
+																									<a href="https://uexcorp.space/mining/components" target="" class="set-loading  " title="Mining Lasers, Consumables, Gadgets">
+															<i class="fa fa-wrench"></i>Components 														</a>
+																											<a href="https://uexcorp.space/mining/methods" target="" class="set-loading  " title="Lists all refining methods available in-game">
+															<i class="fa fa-bullseye"></i>Methods 														</a>
+																											<a href="https://uexcorp.space/mining/pricing" target="" class="set-loading  " title="Prices of all mining-related commodities, including both raw and refined materials.">
+															<i class="fa fa-usd"></i>Pricing 														</a>
+																											<a href="https://uexcorp.space/mining/refineries" target="" class="set-loading  " title="Shows all refineries and their respective commodities yields and workloads (averages)">
+															<i class="fa fa-filter"></i>Refineries 														</a>
+																							</span>
+									</span>
+																	<span class="item   " title="Explore essential Star Citizen details: planets, moons, commodities, and more.">
+										<i class="fa fa-database"></i><span class="no-overflow-text">Resources</span>
+										<span class="menu-sub">
+																									<a href="https://uexcorp.space/terminals" target="" class="set-loading  " title="Lists all Star Citizen Commodities, Items, Vehicles Rentals and Vehicles Sales Terminals">
+															<i class="fa fa-television"></i>Terminals 														</a>
+																											<a href="https://uexcorp.space/crew" target="" class="set-loading  " title="Find a crew for your Star Citizen adventure">
+															<i class="fa fa-users"></i>Crew 														</a>
+																											<a href="https://uexcorp.space/workarounds" target="" class="set-loading  " title="Find alternative solutions for Star Citizen bugs discovered by the community">
+															<i class="fa fa-bug"></i>Workarounds 														</a>
+																											<a href="https://uexcorp.space/api/community_made" target="" class="set-loading  " title="Apps developed by the Star Citizen community and connected to UEX">
+															<i class="fa fa-download"></i>Tools 														</a>
+																											<a href="https://uexcorp.space/resources/home" target="" class="set-loading  " title="Explore essential Star Citizen details: planets, moons, commodities, and more.">
+															<i class="fa fa-plus-square"></i>Other 														</a>
+																							</span>
+									</span>
+												</nav>
+			</div>
+			<div class="user">
+				<div class="holder">
+											<div class="info">
+							<p class="mgb-1">
+															</p>
+							<p>
+																	<a href="https://uexcorp.space/login" class="text-red">
+										<i class="fa fa-sign-in mgr-2"></i>	Sign in
+									</a>
+															</p>
+						</div>
+						<div class="avatar">
+															<a href="https://uexcorp.space/login" class="cursor-not-allowed">
+									<img src="https://static.uexcorp.space/img/avatar.svg" alt="">
+								</a>
+													</div>
+									</div>
+			</div>
+			<div class="menu-mobile">
+				<a href="javascript:void(false)" id="mobile-menu-switcher">
+					<i class="fa fa-bars"></i>
+				</a>
+			</div>
+		</section>
+							<section class="breadcrumb line-detail line-detail-lt">
+				<nav aria-label="breadcrumb"><a href="https://uexcorp.space/"><i class="fa fa-home"></i></a><a href="https://uexcorp.space/api/documentation" class="set-loading">API 2.0</a></nav>							</section>
+			</header>
+
+	<audio src="" id="audio-assistant-player"></audio>
+
+	<script src="https://static.uexcorp.space/js/events.header.min.js?commit=c38741"></script>
+
+			<main id="main-content">
+				<article>
+											
+<style>
+	
+	.bg-image
+	{
+		position: fixed;
+		bottom: 0;
+		right: 0;
+		min-width: 100%;
+		min-height: 100%;
+		z-index: -100;
+		-webkit-mask-image: linear-gradient(to top, transparent, black);
+		mask-image: linear-gradient(to top, transparent, black);
+		filter: invert(100%) grayscale(100%) blur(5px);
+		opacity: 0.5;
+	}
+
+	body.night-mode .bg-image
+	{
+		filter: blur(5px);
+	}
+
+</style>
+
+<div class="bg-image hide-performance-mode">
+	<img src="https://static.uexcorp.space/img/about/bg-code.jpg" alt="">
+</div>
+
+<div class="panel panel-transparent panel-30 panel-blur mgb-30">
+	<div class="panel-content">
+		<div class="row row-30">
+			<div class="col-3 no-pdv">
+				<h1 class="no-mg">
+					<i class="fa fa-code"></i>API 2.0				</h1>
+			</div>
+			<div class="col-2-3 no-pdv text-right pdt-10-ps">
+				<a href="https://uexcorp.space/api/community_made/" class="btn btn-light mgl-20 fluid-ps no-mgl-ps set-loading">
+					<i class="fa fa-star"></i>Community Tools <strong class="text-orange mgl-5">(6)</strong>				</a>
+				<a href="https://uexcorp.space/api/webhooks/" class="btn btn-default mgl-20 mgt-10-ps fluid-ps no-mgl-ps set-loading">
+					<i class="fa fa-link"></i>Webhooks
+				</a>
+				<a href="https://uexcorp.space/api/apps/" class="btn btn-default mgl-20 mgt-10-ps fluid-ps no-mgl-ps set-loading">
+					<i class="fa fa-code"></i>My Apps
+				</a>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="row row-30">
+	<div class="col-5 no-pdv mgb-30-ps">
+		<div class="sticky-default">
+			<div class="panel panel-collapse-ps panel-20 shadow">
+				<div class="panel-title">
+					<p>
+						<i class="fa fa-terminal"></i>Resources
+					</p>
+				</div>
+				<div class="panel-content selection no-overflow-text">
+					<a href="https://uexcorp.space/api/documentation/" class="pdt-30">
+						<i class="fa fa-home mgr-10"></i>Home
+					</a> 
+															<h3 class="mgb-10 mgt-20 text-default text-bold">
+											get										</h3>
+																			<p class="mgb-5 pdl-10">
+																							<i class="fa fa-circle text-blue mgr-5 text-small" title="Updated Recently"></i>																																	<a href="https://uexcorp.space/api/documentation/id/get_categories/" class="set-loading ">
+												categories											</a>
+										</p>
+																			<p class="mgb-5 pdl-10">
+																							<i class="fa fa-circle text-blue mgr-5 text-small" title="Updated Recently"></i>																																	<a href="https://uexcorp.space/api/documentation/id/get_categories_attributes/" class="set-loading ">
+												categories_attributes											</a>
+										</p>
+																			<p class="mgb-5 pdl-10">
+																							<i class="fa fa-circle text-blue mgr-5 text-small" title="Updated Recently"></i>																																	<a href="https://uexcorp.space/api/documentation/id/get_cities/" class="set-loading ">
+												cities											</a>
+										</p>
+																			<p class="mgb-5 pdl-10">
+																							<i class="fa fa-circle text-blue mgr-5 text-small" title="Updated Recently"></i>																																	<a href="https://uexcorp.space/api/documentation/id/get_commodities/" class="set-loading ">
+												commodities											</a>
+										</p>
+																			<p class="mgb-5 pdl-10">
+																							<i class="fa fa-circle text-blue mgr-5 text-small" title="Updated Recently"></i>																																	<a href="https://uexcorp.space/api/documentation/id/get_commodities_alerts/" class="set-loading ">
+												commodities_alerts											</a>
+										</p>
+																			<p class="mgb-5 pdl-10">
+																							<i class="fa fa-circle text-blue mgr-5 text-small" title="Updated Recently"></i>																						<i class="fa fa-lock mgr-5 translucent text-small" title="Bearer Authorization Required"></i>											<a href="https://uexcorp.space/api/documentation/id/get_commodities_averages/" class="set-loading ">
+												commodities_averages											</a>
+										</p>
+																			<p class="mgb-5 pdl-10">
+																							<i class="fa fa-circle text-blue mgr-5 text-small" title="Updated Recently"></i>																																	<a href="https://uexcorp.space/api/documentation/id/get_commodities_prices/" class="set-loading ">
+												commodities_prices											</a>
+										</p>
+																			<p class="mgb-5 pdl-10">
+																							<i class="fa fa-circle text-blue mgr-5 text-small" title="Updated Recently"></i>																																	<a href="https://uexcorp.space/api/documentation/id/get_commodities_prices_all/" class="set-loading ">
+												commodities_prices_all											</a>
+										</p>
+																			<p class="mgb-5 pdl-10">
+																							<i class="fa fa-circle text-blue mgr-5 text-small" title="Updated Recently"></i>																																	<a href="https://uexcorp.space/api/documentation/id/get_commodities_prices_history/" class="set-loading ">
+												commodities_prices_history											</a>
+										</p>
+																			<p class="mgb-5 pdl-10">
+																							<i class="fa fa-times-circle text-red mgr-5 text-small" title="Deprecated"></i>
+																																	<a href="https://uexcorp.space/api/documentation/id/get_commodities_ranking/" class="set-loading ">
+												commodities_ranking											</a>
+										</p>
+																			<p class="mgb-5 pdl-10">
+																							<i class="fa fa-circle text-blue mgr-5 text-small" title="Updated Recently"></i>																																	<a href="https://uexcorp.space/api/documentation/id/get_commodities_raw_averages/" class="set-loading ">
+												commodities_raw_averages											</a>
+										</p>
+																			<p class="mgb-5 pdl-10">
+																							<i class="fa fa-circle text-blue mgr-5 text-small" title="Updated Recently"></i>																																	<a href="https://uexcorp.space/api/documentation/id/get_commodities_raw_prices/" class="set-loading ">
+												commodities_raw_prices											</a>
+										</p>
+																			<p class="mgb-5 pdl-10">
+																							<i class="fa fa-circle text-blue mgr-5 text-small" title="Updated Recently"></i>																																	<a href="https://uexcorp.space/api/documentation/id/get_commodities_raw_prices_all/" class="set-loading ">
+												commodities_raw_prices_all											</a>
+										</p>
+																			<p class="mgb-5 pdl-10">
+																							<i class="fa fa-circle text-blue mgr-5 text-small" title="Updated Recently"></i>																																	<a href="https://uexcorp.space/api/documentation/id/get_commodities_routes/" class="set-loading ">
+												commodities_routes											</a>
+										</p>
+																			<p class="mgb-5 pdl-10">
+																							<i class="fa fa-circle text-blue mgr-5 text-small" title="Updated Recently"></i>																																	<a href="https://uexcorp.space/api/documentation/id/get_commodities_status/" class="set-loading ">
+												commodities_status											</a>
+										</p>
+																			<p class="mgb-5 pdl-10">
+																							<i class="fa fa-circle text-blue mgr-5 text-small" title="Updated Recently"></i>																																	<a href="https://uexcorp.space/api/documentation/id/get_companies/" class="set-loading ">
+												companies											</a>
+										</p>
+																			<p class="mgb-5 pdl-10">
+																							<i class="fa fa-circle text-blue mgr-5 text-small" title="Updated Recently"></i>																																	<a href="https://uexcorp.space/api/documentation/id/get_contacts/" class="set-loading ">
+												contacts											</a>
+										</p>
+																			<p class="mgb-5 pdl-10">
+																							<i class="fa fa-circle text-blue mgr-5 text-small" title="Updated Recently"></i>																																	<a href="https://uexcorp.space/api/documentation/id/get_contracts/" class="set-loading ">
+												contracts											</a>
+										</p>
+																			<p class="mgb-5 pdl-10">
+																							<i class="fa fa-circle text-blue mgr-5 text-small" title="Updated Recently"></i>																																	<a href="https://uexcorp.space/api/documentation/id/get_crew/" class="set-loading ">
+												crew											</a>
+										</p>
+																			<p class="mgb-5 pdl-10">
+																							<i class="fa fa-circle text-blue mgr-5 text-small" title="Updated Recently"></i>																																	<a href="https://uexcorp.space/api/documentation/id/get_data_extract/" class="set-loading ">
+												data_extract											</a>
+										</p>
+																			<p class="mgb-5 pdl-10">
+																							<i class="fa fa-circle text-blue mgr-5 text-small" title="Updated Recently"></i>																																	<a href="https://uexcorp.space/api/documentation/id/get_data_parameters/" class="set-loading ">
+												data_parameters											</a>
+										</p>
+																			<p class="mgb-5 pdl-10">
+																							<i class="fa fa-circle text-blue mgr-5 text-small" title="Updated Recently"></i>																																	<a href="https://uexcorp.space/api/documentation/id/get_factions/" class="set-loading ">
+												factions											</a>
+										</p>
+																			<p class="mgb-5 pdl-10">
+																							<i class="fa fa-circle text-blue mgr-5 text-small" title="Updated Recently"></i>																						<i class="fa fa-lock mgr-5 translucent text-small" title="Bearer Authorization Required"></i>											<a href="https://uexcorp.space/api/documentation/id/get_fleet/" class="set-loading ">
+												fleet											</a>
+										</p>
+																			<p class="mgb-5 pdl-10">
+																							<i class="fa fa-circle text-blue mgr-5 text-small" title="Updated Recently"></i>																																	<a href="https://uexcorp.space/api/documentation/id/get_fuel_prices/" class="set-loading ">
+												fuel_prices											</a>
+										</p>
+																			<p class="mgb-5 pdl-10">
+																							<i class="fa fa-circle text-blue mgr-5 text-small" title="Updated Recently"></i>																																	<a href="https://uexcorp.space/api/documentation/id/get_fuel_prices_all/" class="set-loading ">
+												fuel_prices_all											</a>
+										</p>
+																			<p class="mgb-5 pdl-10">
+																							<i class="fa fa-circle text-blue mgr-5 text-small" title="Updated Recently"></i>																																	<a href="https://uexcorp.space/api/documentation/id/get_game_versions/" class="set-loading ">
+												game_versions											</a>
+										</p>
+																			<p class="mgb-5 pdl-10">
+																							<i class="fa fa-circle text-blue mgr-5 text-small" title="Updated Recently"></i>																																	<a href="https://uexcorp.space/api/documentation/id/get_items/" class="set-loading ">
+												items											</a>
+										</p>
+																			<p class="mgb-5 pdl-10">
+																							<i class="fa fa-circle text-blue mgr-5 text-small" title="Updated Recently"></i>																																	<a href="https://uexcorp.space/api/documentation/id/get_items_attributes/" class="set-loading ">
+												items_attributes											</a>
+										</p>
+																			<p class="mgb-5 pdl-10">
+																							<i class="fa fa-circle text-blue mgr-5 text-small" title="Updated Recently"></i>																																	<a href="https://uexcorp.space/api/documentation/id/get_items_prices/" class="set-loading ">
+												items_prices											</a>
+										</p>
+																			<p class="mgb-5 pdl-10">
+																							<i class="fa fa-circle text-blue mgr-5 text-small" title="Updated Recently"></i>																																	<a href="https://uexcorp.space/api/documentation/id/get_items_prices_all/" class="set-loading ">
+												items_prices_all											</a>
+										</p>
+																			<p class="mgb-5 pdl-10">
+																							<i class="fa fa-circle text-blue mgr-5 text-small" title="Updated Recently"></i>																																	<a href="https://uexcorp.space/api/documentation/id/get_jump_points/" class="set-loading ">
+												jump_points											</a>
+										</p>
+																			<p class="mgb-5 pdl-10">
+																							<i class="fa fa-circle text-blue mgr-5 text-small" title="Updated Recently"></i>																																	<a href="https://uexcorp.space/api/documentation/id/get_jurisdictions/" class="set-loading ">
+												jurisdictions											</a>
+										</p>
+																			<p class="mgb-5 pdl-10">
+																							<i class="fa fa-circle text-blue mgr-5 text-small" title="Updated Recently"></i>																																	<a href="https://uexcorp.space/api/documentation/id/get_marketplace_averages/" class="set-loading ">
+												marketplace_averages											</a>
+										</p>
+																			<p class="mgb-5 pdl-10">
+																							<i class="fa fa-circle text-blue mgr-5 text-small" title="Updated Recently"></i>																																	<a href="https://uexcorp.space/api/documentation/id/get_marketplace_averages_all/" class="set-loading ">
+												marketplace_averages_all											</a>
+										</p>
+																			<p class="mgb-5 pdl-10">
+																							<i class="fa fa-circle text-blue mgr-5 text-small" title="Updated Recently"></i>																						<i class="fa fa-lock mgr-5 translucent text-small" title="Bearer Authorization Required"></i>											<a href="https://uexcorp.space/api/documentation/id/get_marketplace_favorites/" class="set-loading ">
+												marketplace_favorites											</a>
+										</p>
+																			<p class="mgb-5 pdl-10">
+																							<i class="fa fa-circle text-blue mgr-5 text-small" title="Updated Recently"></i>																																	<a href="https://uexcorp.space/api/documentation/id/get_marketplace_listings/" class="set-loading ">
+												marketplace_listings											</a>
+										</p>
+																			<p class="mgb-5 pdl-10">
+																							<i class="fa fa-circle text-blue mgr-5 text-small" title="Updated Recently"></i>																						<i class="fa fa-lock mgr-5 translucent text-small" title="Bearer Authorization Required"></i>											<a href="https://uexcorp.space/api/documentation/id/get_marketplace_negotiations/" class="set-loading ">
+												marketplace_negotiations											</a>
+										</p>
+																			<p class="mgb-5 pdl-10">
+																							<i class="fa fa-circle text-blue mgr-5 text-small" title="Updated Recently"></i>																						<i class="fa fa-lock mgr-5 translucent text-small" title="Bearer Authorization Required"></i>											<a href="https://uexcorp.space/api/documentation/id/get_marketplace_negotiations_messages/" class="set-loading ">
+												marketplace_negotiations_messages											</a>
+										</p>
+																			<p class="mgb-5 pdl-10">
+																							<i class="fa fa-circle text-blue mgr-5 text-small" title="Updated Recently"></i>																																	<a href="https://uexcorp.space/api/documentation/id/get_moons/" class="set-loading ">
+												moons											</a>
+										</p>
+																			<p class="mgb-5 pdl-10">
+																							<i class="fa fa-circle text-blue mgr-5 text-small" title="Updated Recently"></i>																																	<a href="https://uexcorp.space/api/documentation/id/get_orbits/" class="set-loading ">
+												orbits											</a>
+										</p>
+																			<p class="mgb-5 pdl-10">
+																							<i class="fa fa-circle text-blue mgr-5 text-small" title="Updated Recently"></i>																																	<a href="https://uexcorp.space/api/documentation/id/get_orbits_distances/" class="set-loading ">
+												orbits_distances											</a>
+										</p>
+																			<p class="mgb-5 pdl-10">
+																							<i class="fa fa-circle text-blue mgr-5 text-small" title="Updated Recently"></i>																						<i class="fa fa-lock mgr-5 translucent text-small" title="Bearer Authorization Required"></i>											<a href="https://uexcorp.space/api/documentation/id/get_organizations/" class="set-loading ">
+												organizations											</a>
+										</p>
+																			<p class="mgb-5 pdl-10">
+																							<i class="fa fa-circle text-blue mgr-5 text-small" title="Updated Recently"></i>																																	<a href="https://uexcorp.space/api/documentation/id/get_outposts/" class="set-loading ">
+												outposts											</a>
+										</p>
+																			<p class="mgb-5 pdl-10">
+																							<i class="fa fa-circle text-blue mgr-5 text-small" title="Updated Recently"></i>																																	<a href="https://uexcorp.space/api/documentation/id/get_planets/" class="set-loading ">
+												planets											</a>
+										</p>
+																			<p class="mgb-5 pdl-10">
+																							<i class="fa fa-circle text-blue mgr-5 text-small" title="Updated Recently"></i>																																	<a href="https://uexcorp.space/api/documentation/id/get_poi/" class="set-loading ">
+												poi											</a>
+										</p>
+																			<p class="mgb-5 pdl-10">
+																							<i class="fa fa-circle text-blue mgr-5 text-small" title="Updated Recently"></i>																																	<a href="https://uexcorp.space/api/documentation/id/get_refineries_audits/" class="set-loading ">
+												refineries_audits											</a>
+										</p>
+																			<p class="mgb-5 pdl-10">
+																							<i class="fa fa-circle text-blue mgr-5 text-small" title="Updated Recently"></i>																																	<a href="https://uexcorp.space/api/documentation/id/get_refineries_capacities/" class="set-loading ">
+												refineries_capacities											</a>
+										</p>
+																			<p class="mgb-5 pdl-10">
+																							<i class="fa fa-circle text-blue mgr-5 text-small" title="Updated Recently"></i>																																	<a href="https://uexcorp.space/api/documentation/id/get_refineries_methods/" class="set-loading ">
+												refineries_methods											</a>
+										</p>
+																			<p class="mgb-5 pdl-10">
+																							<i class="fa fa-circle text-blue mgr-5 text-small" title="Updated Recently"></i>																																	<a href="https://uexcorp.space/api/documentation/id/get_refineries_yields/" class="set-loading ">
+												refineries_yields											</a>
+										</p>
+																			<p class="mgb-5 pdl-10">
+																							<i class="fa fa-circle text-blue mgr-5 text-small" title="Updated Recently"></i>																																	<a href="https://uexcorp.space/api/documentation/id/get_release_notes/" class="set-loading ">
+												release_notes											</a>
+										</p>
+																			<p class="mgb-5 pdl-10">
+																							<i class="fa fa-circle text-blue mgr-5 text-small" title="Updated Recently"></i>																																	<a href="https://uexcorp.space/api/documentation/id/get_space_stations/" class="set-loading ">
+												space_stations											</a>
+										</p>
+																			<p class="mgb-5 pdl-10">
+																							<i class="fa fa-circle text-blue mgr-5 text-small" title="Updated Recently"></i>																																	<a href="https://uexcorp.space/api/documentation/id/get_star_systems/" class="set-loading ">
+												star_systems											</a>
+										</p>
+																			<p class="mgb-5 pdl-10">
+																							<i class="fa fa-circle text-blue mgr-5 text-small" title="Updated Recently"></i>																																	<a href="https://uexcorp.space/api/documentation/id/get_terminals/" class="set-loading ">
+												terminals											</a>
+										</p>
+																			<p class="mgb-5 pdl-10">
+																							<i class="fa fa-circle text-blue mgr-5 text-small" title="Updated Recently"></i>																																	<a href="https://uexcorp.space/api/documentation/id/get_terminals_distances/" class="set-loading ">
+												terminals_distances											</a>
+										</p>
+																			<p class="mgb-5 pdl-10">
+																							<i class="fa fa-circle text-blue mgr-5 text-small" title="Updated Recently"></i>																																	<a href="https://uexcorp.space/api/documentation/id/get_user/" class="set-loading ">
+												user											</a>
+										</p>
+																			<p class="mgb-5 pdl-10">
+																							<i class="fa fa-circle text-blue mgr-5 text-small" title="Updated Recently"></i>																						<i class="fa fa-lock mgr-5 translucent text-small" title="Bearer Authorization Required"></i>											<a href="https://uexcorp.space/api/documentation/id/get_user_notifications/" class="set-loading ">
+												user_notifications											</a>
+										</p>
+																			<p class="mgb-5 pdl-10">
+																							<i class="fa fa-circle text-blue mgr-5 text-small" title="Updated Recently"></i>																						<i class="fa fa-lock mgr-5 translucent text-small" title="Bearer Authorization Required"></i>											<a href="https://uexcorp.space/api/documentation/id/get_user_refineries_jobs/" class="set-loading ">
+												user_refineries_jobs											</a>
+										</p>
+																			<p class="mgb-5 pdl-10">
+																							<i class="fa fa-circle text-blue mgr-5 text-small" title="Updated Recently"></i>																						<i class="fa fa-lock mgr-5 translucent text-small" title="Bearer Authorization Required"></i>											<a href="https://uexcorp.space/api/documentation/id/get_user_trades/" class="set-loading ">
+												user_trades											</a>
+										</p>
+																			<p class="mgb-5 pdl-10">
+																							<i class="fa fa-circle text-blue mgr-5 text-small" title="Updated Recently"></i>																																	<a href="https://uexcorp.space/api/documentation/id/get_vehicles/" class="set-loading ">
+												vehicles											</a>
+										</p>
+																			<p class="mgb-5 pdl-10">
+																							<i class="fa fa-circle text-blue mgr-5 text-small" title="Updated Recently"></i>																																	<a href="https://uexcorp.space/api/documentation/id/get_vehicles_loaners/" class="set-loading ">
+												vehicles_loaners											</a>
+										</p>
+																			<p class="mgb-5 pdl-10">
+																							<i class="fa fa-circle text-blue mgr-5 text-small" title="Updated Recently"></i>																																	<a href="https://uexcorp.space/api/documentation/id/get_vehicles_prices/" class="set-loading ">
+												vehicles_prices											</a>
+										</p>
+																			<p class="mgb-5 pdl-10">
+																							<i class="fa fa-circle text-blue mgr-5 text-small" title="Updated Recently"></i>																																	<a href="https://uexcorp.space/api/documentation/id/get_vehicles_purchases_prices/" class="set-loading ">
+												vehicles_purchases_prices											</a>
+										</p>
+																			<p class="mgb-5 pdl-10">
+																							<i class="fa fa-circle text-blue mgr-5 text-small" title="Updated Recently"></i>																																	<a href="https://uexcorp.space/api/documentation/id/get_vehicles_purchases_prices_all/" class="set-loading ">
+												vehicles_purchases_prices_all											</a>
+										</p>
+																			<p class="mgb-5 pdl-10">
+																							<i class="fa fa-circle text-blue mgr-5 text-small" title="Updated Recently"></i>																																	<a href="https://uexcorp.space/api/documentation/id/get_vehicles_rentals_prices/" class="set-loading ">
+												vehicles_rentals_prices											</a>
+										</p>
+																			<p class="mgb-5 pdl-10">
+																							<i class="fa fa-circle text-blue mgr-5 text-small" title="Updated Recently"></i>																																	<a href="https://uexcorp.space/api/documentation/id/get_vehicles_rentals_prices_all/" class="set-loading ">
+												vehicles_rentals_prices_all											</a>
+										</p>
+																			<p class="mgb-5 pdl-10">
+																							<i class="fa fa-circle text-blue mgr-5 text-small" title="Updated Recently"></i>																						<i class="fa fa-lock mgr-5 translucent text-small" title="Bearer Authorization Required"></i>											<a href="https://uexcorp.space/api/documentation/id/get_wallet_balance/" class="set-loading ">
+												wallet_balance											</a>
+										</p>
+																			<h3 class="mgb-10 mgt-20 text-default text-bold">
+											post										</h3>
+																			<p class="mgb-5 pdl-10">
+																							<i class="fa fa-circle text-blue mgr-5 text-small" title="Updated Recently"></i>																						<i class="fa fa-lock mgr-5 translucent text-small" title="Bearer Authorization Required"></i>											<a href="https://uexcorp.space/api/documentation/id/post_data_submit/" class="set-loading ">
+												data_submit											</a>
+										</p>
+																			<p class="mgb-5 pdl-10">
+																							<i class="fa fa-circle text-blue mgr-5 text-small" title="Updated Recently"></i>																						<i class="fa fa-lock mgr-5 translucent text-small" title="Bearer Authorization Required"></i>											<a href="https://uexcorp.space/api/documentation/id/post_marketplace_advertise/" class="set-loading ">
+												marketplace_advertise											</a>
+										</p>
+																			<p class="mgb-5 pdl-10">
+																							<i class="fa fa-circle text-blue mgr-5 text-small" title="Updated Recently"></i>																						<i class="fa fa-lock mgr-5 translucent text-small" title="Bearer Authorization Required"></i>											<a href="https://uexcorp.space/api/documentation/id/post_marketplace_negotiations_messages/" class="set-loading ">
+												marketplace_negotiations_messages											</a>
+										</p>
+																			<p class="mgb-5 pdl-10">
+																							<i class="fa fa-circle text-blue mgr-5 text-small" title="Updated Recently"></i>																						<i class="fa fa-lock mgr-5 translucent text-small" title="Bearer Authorization Required"></i>											<a href="https://uexcorp.space/api/documentation/id/post_user_refineries_jobs_add/" class="set-loading ">
+												user_refineries_jobs_add											</a>
+										</p>
+																			<p class="mgb-5 pdl-10">
+																							<i class="fa fa-circle text-blue mgr-5 text-small" title="Updated Recently"></i>																						<i class="fa fa-lock mgr-5 translucent text-small" title="Bearer Authorization Required"></i>											<a href="https://uexcorp.space/api/documentation/id/post_user_trades_add/" class="set-loading ">
+												user_trades_add											</a>
+										</p>
+																			<p class="mgb-5 pdl-10">
+																							<i class="fa fa-circle text-blue mgr-5 text-small" title="Updated Recently"></i>																						<i class="fa fa-lock mgr-5 translucent text-small" title="Bearer Authorization Required"></i>											<a href="https://uexcorp.space/api/documentation/id/post_user_trades_edit/" class="set-loading ">
+												user_trades_edit											</a>
+										</p>
+																			<p class="mgb-5 pdl-10">
+																							<i class="fa fa-circle text-blue mgr-5 text-small" title="Updated Recently"></i>																						<i class="fa fa-lock mgr-5 translucent text-small" title="Bearer Authorization Required"></i>											<a href="https://uexcorp.space/api/documentation/id/post_wallet_add/" class="set-loading ">
+												wallet_add											</a>
+										</p>
+																			<h3 class="mgb-10 mgt-20 text-default text-bold">
+											delete										</h3>
+																			<p class="mgb-5 pdl-10">
+																							<i class="fa fa-circle text-blue mgr-5 text-small" title="Updated Recently"></i>																																	<a href="https://uexcorp.space/api/documentation/id/delete_marketplace_listings/" class="set-loading ">
+												marketplace_listings											</a>
+										</p>
+																			<p class="mgb-5 pdl-10">
+																							<i class="fa fa-circle text-blue mgr-5 text-small" title="Updated Recently"></i>																						<i class="fa fa-lock mgr-5 translucent text-small" title="Bearer Authorization Required"></i>											<a href="https://uexcorp.space/api/documentation/id/delete_user_refineries_jobs_remove/" class="set-loading ">
+												user_refineries_jobs_remove											</a>
+										</p>
+																			<p class="mgb-5 pdl-10">
+																							<i class="fa fa-circle text-blue mgr-5 text-small" title="Updated Recently"></i>																						<i class="fa fa-lock mgr-5 translucent text-small" title="Bearer Authorization Required"></i>											<a href="https://uexcorp.space/api/documentation/id/delete_user_trades_remove/" class="set-loading ">
+												user_trades_remove											</a>
+										</p>
+													</div>
+			</div>
+		</div>
+	</div>
+	<div class="col-2-5 no-pdv">
+
+		
+		
+		<div class="panel panel-30  shadow">
+			<div class="panel-content">
+								<style>
+	
+	.tbl th > .fa,
+	.tbl td > .fa {width: 20px; text-align: center;}
+
+	.api-badge:hover
+	{
+		opacity: 0.5;
+	}
+
+	.resources
+	{
+		display: inline-block;
+		background-color: #ddd;
+		width: 90px;
+		height: 30px;
+		background-size: 80% auto;
+		background-position: center center;
+		background-repeat: no-repeat;
+		text-indent: -9999px;
+		border-radius: 5px;
+	}
+
+		.resources:hover
+		{
+			box-shadow: inset 0 0 0 4px var(--default-color);
+		}
+
+		body.night-mode .resources:hover
+		{
+			box-shadow: inset 0 0 0 4px var(--default-color-night);
+		}
+
+	.resources-open-api
+	{
+		background-image: url(https://static.uexcorp.space/img/api/logo-openapi.png);
+	}
+
+	.resources-github
+	{
+		background-image: url(https://static.uexcorp.space/img/api/logo-github.png);
+	}
+
+	.endpoints 
+	{
+		display: inline-block;
+		width: 100%;
+		font-family: monospace;
+		margin-bottom: 5px
+	}
+
+		.endpoints:hover
+		{
+			text-decoration: none;
+			opacity: 0.8;
+		}
+
+	.endpoints:last-child
+	{
+		margin-bottom: 0;
+	}
+
+</style>
+
+<h2 class="mgb-10 text-default text-bold">
+	Welcome!</h2>
+
+<h3 class="mgb-40">
+	Explore the potential of <strong>UEX API 2.0</strong> for your next venture, driven by insights from the Star Citizen community.</h3>
+
+<h3 class="mgb-10">
+	<i class="fa fa-caret-right translucent"></i>
+	Getting Started
+</h3>
+<p class="mgb-40">
+	To obtain your <strong>access token</strong>, please create your first app on the <a href="https://uexcorp.space/api/apps" class="text-underline text-blue">My Apps</a> page.</p>
+
+<h3 class="mgb-10">
+	<i class="fa fa-caret-right translucent"></i>
+	Grain of Salt
+</h3>
+<p class="mgb-40">
+	UEX API data comes from community reports. As a crowdsourced project, errors may happen. We fix them as soon as we find them. The API can change as the site (and the game) evolves, but we avoid breaking data structures. Major changes will come in future API versions.
+</p>
+
+<h3 class="mgb-10">
+	<i class="fa fa-caret-right translucent"></i>
+	Usage
+</h3>
+
+<div class="panel panel-transparent panel-20 br-10 mgb-40">
+	<div class="panel-content text-monospace text-bolder">
+		<div class="h-scroll selection">
+			<p class="mgb-10">
+				https://api.uexcorp.uk/2.0/<span class="text-red">{resource}</span>/
+			</p>
+			<p class="mgb-10">
+				https://api.uexcorp.uk/2.0/<span class="text-red">{resource}</span>/<span class="text-orange">{parameter1}</span>/<span class="text-orange">{value1}</span>/<span class="text-orange">{parameter2}</span>/<span class="text-orange">{value2}</span>/<span class="translucent">...</span>
+			</p>
+			<p class="no-mg">
+				https://api.uexcorp.uk/2.0/<span class="text-red">{resource}</span>/<span class="text-orange">?{parameter1}</span>=<span class="text-orange">{value1}</span>&<span class="text-orange">{parameter2}</span>=<span class="text-orange">{value2}</span><span class="translucent">...</span>
+			</p>
+		</div>
+	</div>
+</div>
+
+<h3 class="mgb-10">
+	<i class="fa fa-caret-right translucent"></i>
+	Definitions
+</h3>
+
+<div class="panel panel-transparent panel-10 br-10 mgb-40">
+	<div class="panel-content selection">
+		<div class="h-scroll">
+			<table class="tbl tbl-zebra no-mg">
+				<tr>
+					<th style="width: 240px">
+						<i class="fa fa-info-circle mgr-10"></i>API Version
+					</th>
+					<td class="text-monospace text-bolder">
+						2.0					</td>
+				</tr>
+				<tr>
+					<th style="width: 240px">
+						<i class="fa fa-circle-o mgr-10"></i>Daily Quota
+					</th>
+					<td class="text-monospace text-bolder">
+						14400 requests <span class="translucent">(or 10 requests per minute)</span>
+					</td>
+				</tr>
+				<tr>
+					<th>
+						<i class="fa fa-lock mgr-10"></i>Authentication Method
+					</th>
+					<td class="text-monospace text-bolder">
+						Bearer Token
+					</td>
+				</tr>
+				<tr>
+					<th>
+						<i class="fa fa-link mgr-10"></i>Methods Allowed
+					</th>
+					<td class="text-monospace text-bolder">
+						GET, POST, DELETE					</td>
+				</tr>
+				<tr>
+					<th>
+						<i class="fa fa-file-o mgr-10"></i>Format
+					</th>
+					<td class="text-monospace text-bolder">
+						application/json
+					</td>
+				</tr>
+			</table>
+		</div>
+	</div>
+</div>
+
+<h3 class="mgb-10">
+	<i class="fa fa-caret-right translucent"></i>
+	Response Examples
+</h3>
+
+<div class="panel panel-transparent panel-10 br-10 mgb-40">
+	<div class="panel-content selection">
+		<div class="h-scroll">
+			<table class="tbl tbl-zebra no-mg">
+				<tr>
+					<th style="width: 240px">
+						<i class="fa fa-check mgr-10"></i>Successful
+					</th>
+					<td class="text-monospace text-bolder no-overflow-text">
+						{  "status": <span class="text-green">"ok"</span>, "data": <span class="translucent">...</span> }
+					</td>
+				</tr>
+				<tr>
+					<th>
+						<i class="fa fa-times mgr-10"></i>Internal Error
+					</th>
+					<td class="text-monospace text-bolder no-overflow-text">
+						{  "status": <span class="text-red">"error"</span>, "http_code": <span class="text-red">500</span>, "message": <span class="translucent">...</span> }
+					</td>
+				</tr>
+				<tr>
+					<th>
+						<i class="fa fa-exclamation mgr-10"></i>Invalid Request
+					</th>
+					<td class="text-monospace text-bolder no-overflow-text">
+						{  "status": <span class="text-orange">"example_code"</span>, "data": <span class="translucent">...</span> }
+					</td>
+				</tr>
+				<tr>
+					<th>
+						<i class="fa fa-clock-o mgr-10"></i>Too Many Requests
+					</th>
+					<td class="text-monospace text-bolder">
+						{  "status": <span class="text-orange">"requests_limit_reached"</span>, "data": <span class="translucent">...</span> }
+					</td>
+				</tr>
+				
+			</table>
+		</div>
+	</div>
+</div>
+
+<h3 class="mgb-10">
+	<i class="fa fa-caret-right translucent"></i>
+	Pricing Parameterrs
+</h3>
+
+<div class="panel panel-transparent panel-10 br-10 mgb-40">
+	<div class="panel-content selection">
+		<div class="h-scroll">
+			<table class="tbl tbl-zebra no-mg">
+				<tr>
+					<th class="align-top" style="width: 240px">
+						<i class="fa fa-calendar mgr-10"></i>Default Average (Days)
+					</th>
+					<td class="text-monospace text-bolder">
+						15					</td>
+				</tr>
+				<tr>
+					<th class="align-top">
+						<i class="fa fa-line-chart mgr-10"></i>Variation Tolerance (+/-)
+					</th>
+					<td>
+						<table class="tbl tbl-bordered tbl-fixed tbl-no-overflow no-mg">
+							<thead>
+								<tr>
+																																							<th class="text-bold">
+											Commodities										</th>
+																																							<th class="text-bold">
+											Items										</th>
+																																							<th class="text-bold">
+											Ore Sales										</th>
+																																							<th class="text-bold">
+											Vehicles Sales										</th>
+																																							<th class="text-bold">
+											Vehicles Rentals										</th>
+																																							<th class="text-bold">
+											Vehicles Pledges										</th>
+																																							<th class="text-bold">
+											Fuel										</th>
+																																																																																																																																																																																	</tr>
+							</thead>
+							<tbody>
+								<tr>
+																																							<td class="text-bold">
+											60%
+										</td>
+																																							<td class="text-bold">
+											100%
+										</td>
+																																							<td class="text-bold">
+											60%
+										</td>
+																																							<td class="text-bold">
+											10%
+										</td>
+																																							<td class="text-bold">
+											60%
+										</td>
+																																							<td class="text-bold">
+											10%
+										</td>
+																																							<td class="text-bold">
+											20%
+										</td>
+																																																																																																																																																																																	</tr>
+							</tbody>
+						</table>
+					</td>
+				</tr>
+				<tr>
+					<th class="align-top">
+						<i class="fa fa-usd mgr-10"></i>Pricing Standard
+					</th>
+					<td>
+						<table class="tbl tbl-bordered tbl-fixed tbl-no-overflow no-mg">
+							<thead>
+								<tr>
+																																							<th class="text-bold">
+											Commodities										</th>
+																																							<th class="text-bold">
+											Items										</th>
+																																							<th class="text-bold">
+											Ore Sales										</th>
+																																							<th class="text-bold">
+											Vehicles Sales										</th>
+																																							<th class="text-bold">
+											Vehicles Rentals										</th>
+																																							<th class="text-bold">
+											Vehicles Pledges										</th>
+																																							<th class="text-bold">
+											Fuel										</th>
+																																																																																																																																																																																	</tr>
+							</thead>
+							<tbody>
+								<tr>
+																																							<td class="text-bold">
+											Per SCU										</td>
+																																							<td class="text-bold">
+											Per unit										</td>
+																																							<td class="text-bold">
+											Per SCU										</td>
+																																							<td class="text-bold">
+											Per unit										</td>
+																																							<td class="text-bold">
+											Per unit										</td>
+																																							<td class="text-bold">
+											Per unit										</td>
+																																							<td class="text-bold">
+											Per SCU										</td>
+																																																																																																																																																																																	</tr>
+							</tbody>
+						</table>
+					</td>
+				</tr>
+			</table>
+		</div>
+	</div>
+</div>
+
+<h3 class="mgb-10">
+	<i class="fa fa-caret-right translucent"></i>
+	Client Version Lock
+</h3>
+<p class="mgb-40">
+	You can enforce client version control on your API keys. By locking a specific version, only requests that include the matching <code>X-Client-Version</code> header will be accepted. This helps prevent outdated or unsupported clients from using your key.
+</p>
+
+<h3 class="mgb-10 mgt-30">
+	<i class="fa fa-caret-right translucent"></i>
+	API Badges <a href="https://uexcorp.space/about/resources" class="translucent text-underline text-small">More Here</a>
+</h3>
+
+<p class="no-white-space mgb-10">
+			<a href="https://uexcorp.space/img/api/uex-api-badge-partnered.png" target="_blank">
+			<img src="https://uexcorp.space/img/api/uex-api-badge-partnered.png" alt="" class="mgr-20 mgb-10 shadow api-badge" style="width: 140px">
+		</a>
+			<a href="https://uexcorp.space/img/api/uex-api-badge-powered.png" target="_blank">
+			<img src="https://uexcorp.space/img/api/uex-api-badge-powered.png" alt="" class="mgr-20 mgb-10 shadow api-badge" style="width: 140px">
+		</a>
+	</p>
+
+			</div>
+		</div>
+	</div>
+</div>
+															</article>
+			</main>
+			
+		<footer class="no-selection mgb-80">
+		<section class="left">
+			<p class="mgb-20">
+				<a href="https://uexcorp.space/about">About</a>
+				<span class="pdh-10 translucent">&bull;</span>
+									<a href="https://uexcorp.space/api">API </a>
+					<span class="pdh-10 translucent">&bull;</span>
+								<a href="https://uexcorp.space/api/community_made">Community Tools </a>
+				<span class="pdh-10 translucent">&bull;</span>
+													<a href="https://uexcorp.space/signup">Signup</a>
+					<span class="pdh-10 translucent">&bull;</span>
+													<a href="http://status.uexcorp.space" target="_blank">Status</a>
+					<span class="pdh-10 translucent">&bull;</span>
+								<a href="https://uexcorp.space/news/release_notes">Release Notes </a>
+				<span class="pdh-10 translucent">&bull;</span>
+				<a href="https://uexcorp.space/about/terms">Terms and Privacy</a>
+			</p> 
+			<p class="no-mg">
+				Data is community-maintained and may not reflect live servers. Commodities prices are per SCU. This unofficial fansite is not affiliated with Cloud Imperium. UEX is a fictional in-game entity. Partnered with <a href="https://sc-trade.tools" target="_blank">SC Trade Tools</a>.
+			</p>
+			<p class="translucent no-mg">
+				
+			</p>
+			<p class="translucent no-mg">
+				&copy; 2950-2955 &mdash; Supported Star Citizen version: 4.3.1.
+			</p>
+			<p class="mgt-20 no-mgb">
+				<a href="https://uexcorp.space/api/documentation/?set_lang=de_DE" title="German" class="mgr-20 set-loading"><img src="https://static.uexcorp.space/img/flags/de.svg" async alt="German" class="br-2" style="width: 16px; height: auto;"></a><a href="https://uexcorp.space/api/documentation/?set_lang=en_US" title="English" class="mgr-20 set-loading"><img src="https://static.uexcorp.space/img/flags/us.svg" async alt="English" class="br-2" style="width: 16px; height: auto;"></a><a href="https://uexcorp.space/api/documentation/?set_lang=es_ES" title="Spanish" class="mgr-20 set-loading"><img src="https://static.uexcorp.space/img/flags/es.svg" async alt="Spanish" class="br-2" style="width: 16px; height: auto;"></a><a href="https://uexcorp.space/api/documentation/?set_lang=fr_FR" title="French" class="mgr-20 set-loading"><img src="https://static.uexcorp.space/img/flags/fr.svg" async alt="French" class="br-2" style="width: 16px; height: auto;"></a><a href="https://uexcorp.space/api/documentation/?set_lang=pt_BR" title="Portuguese" class="mgr-20 set-loading"><img src="https://static.uexcorp.space/img/flags/br.svg" async alt="Portuguese" class="br-2" style="width: 16px; height: auto;"></a><a href="https://uexcorp.space/api/documentation/?set_lang=zh_CN" title="Chinese" class="mgr-20 set-loading"><img src="https://static.uexcorp.space/img/flags/cn.svg" async alt="Chinese" class="br-2" style="width: 16px; height: auto;"></a>			</p>
+						<p class="mgt-20">
+				<a href="https://www.patreon.com/uexcorp/membership" target="_blank" class="btn btn-light pdv-5 pdh-10 btn-clean br-10 mgr-10 mgt-5 fluid-ps">
+					<i class="fa fa-heart mgr-5"></i>Support us on Patreon
+				</a>
+				<a href="https://ko-fi.com/uexcorp" target="_blank" class="btn btn-light pdv-5 pdh-10 btn-clean br-10 mgr-10 mgt-5 fluid-ps">
+					<i class="fa fa-heart mgr-5"></i>Support us on Ko-Fi
+				</a>
+			</p>
+		</section>
+		<section class="right">
+						<div class="seals">
+				<img class="seal" src="https://static.uexcorp.space/img/seal-made-by-community.png" title="Made possible by you, the Star Citizen Community" alt="Made possible by you, the Star Citizen Community">
+				<img class="seal" src="https://static.uexcorp.space/img/seal-uee.png" title="Member of the United Empire of Earth" alt="Member of the United Empire of Earth">
+				<img class="seal" src="https://static.uexcorp.space/img/seal-microtech.png" title="Headquartered in the microTech Business Park" alt="Headquartered in the microTech Business Park">			
+			</div>
+		</section>
+	</footer>
+
+	<div class="footer-tools"> 
+				<a href="javascript:void(false)" title="Scroll to top (Shift+T)" onclick="window.scrollTo({top: 0, behavior: 'smooth'});" class="lower-tool-scroll-top shadow">
+			<i class="fa fa-arrow-up"></i>
+		</a>
+		<a href="javascript:void(false)" title="Scroll to bottom (Shift+B)" onclick="window.scrollTo({top: document.body.scrollHeight, behavior: 'smooth'});" class="lower-tool-scroll-bottom shadow">
+			<i class="fa fa-arrow-down"></i>
+		</a>
+			</div>
+
+		</div>
+		
+<script>
+
+	const console_min_height = 200;
+	
+	document.addEventListener('keydown', function(event) 
+	{
+	    if (event.key === "Escape") 
+	    {
+	        console_close();
+	    }
+	});
+
+	document.addEventListener('DOMContentLoaded', function() 
+	{
+
+	    document.addEventListener('keydown', function(event) 
+	    {
+	        if ((event.key === '~' || event.key === '`') || event.key === 'X' && event.shiftKey && event.ctrlKey && !['INPUT', 'TEXTAREA'].includes(document.activeElement.tagName) && !document.body.classList.contains('cli-open')) 
+	        {
+	            console_open();
+	        }
+	    });
+
+	});
+
+	window.addEventListener('message', function(event) 
+	{
+	    if (event.data === 'console_close') 
+	    {
+	        console_close();
+	    }
+	});
+
+</script>
+
+<div class="console-overlay" onclick="if (!document.body.classList.contains('is-resizing-console')) { console_close(); event.stopPropagation(); }">
+	<div class="console">
+		<iframe src="about:blank" id="console-iframe" frameborder="0"></iframe>
+	</div>
+</div>	<style>
+		.cookies-dialog
+		{
+			position: fixed;
+			left: 20px;
+			bottom: 0px;
+			right: 20px;
+			z-index: 1000;
+		}
+	</style>
+	<div class="cookies-dialog" id="cookies-dialog" data-nosnippet>
+		<div class="container no-pdv">
+			<div class="panel panel-20 panel-blur shadow" id="privacy_terms">
+				<div class="panel-content">
+					<div class="row row-20">
+						<div class="col-2-8 no-pdv">
+							<p class="no-mg text-bold">
+								This website uses third-party cookies for stats, no personal data. We use cookies for preferences (dark mode, trading, mining) and collects trade/refining info (commodities, locations) for public reports. No personal data is collected.
+							</p>
+						</div>
+						<div class="col-8 no-pdv pdt-10-ps">
+							<a href="javascript:void(false)" onclick="set_cookie('uex_cookies_acceptance', true, 365); document.querySelector('#cookies-dialog').remove();" class="btn btn-default fluid br-10">
+								<i class="fa fa-thumbs-up"></i>OK
+							</a>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+<ul class="growl" id="notifications">
+	</ul><div class="drops" id="drops" data-nosnippet>
+	</div>
+
+			<script async src="https://www.googletagmanager.com/gtag/js?id=G-TK3XQ2683C"></script>
+		<script defer>
+			window.dataLayer = window.dataLayer || [];
+			function gtag(){dataLayer.push(arguments);}
+			gtag('js', new Date());
+			gtag('config', 'G-TK3XQ2683C');
+		</script>
+	
+	
+	<script defer src="https://static.cloudflareinsights.com/beacon.min.js/vcd15cbe7772f49c399c6a5babf22c1241717689176015" integrity="sha512-ZpsOmlRQV6y907TI0dKBHq9Md29nnaEIPlkf84rnaERnq6zvWvPUqr2ft8M1aS28oN72PdrCzSjY4U6VaAw1EQ==" data-cf-beacon='{"version":"2024.11.0","token":"29d8b70498ae46de9679ba5b893a0fe5","r":1,"server_timing":{"name":{"cfCacheStatus":true,"cfEdge":true,"cfExtPri":true,"cfL4":true,"cfOrigin":true,"cfSpeedBrain":true},"location_startswith":null}}' crossorigin="anonymous"></script>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'984511f17f4d942a',t:'MTc1ODc0NjE0NQ=='};var a=document.createElement('script');a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+	</html>
+
