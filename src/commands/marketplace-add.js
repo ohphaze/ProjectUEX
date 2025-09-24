@@ -51,6 +51,13 @@ module.exports = {
         .setRequired(true)
         .setMinValue(1)
     )
+    // Required options must come before optional ones (Discord API constraint)
+    .addStringOption(option =>
+      option
+        .setName('description')
+        .setDescription('Detailed description of your listing (max 65535 chars)')
+        .setRequired(true)
+    )
     .addStringOption(option =>
       option
         .setName('item_unit')
@@ -92,12 +99,6 @@ module.exports = {
           { name: 'Run', value: 'run' },
           { name: 'Service', value: 'service' }
         )
-    )
-    .addStringOption(option =>
-      option
-        .setName('description')
-        .setDescription('Detailed description of your listing (max 65535 chars)')
-        .setRequired(true)
     )
     .addStringOption(option =>
       option
