@@ -1,0 +1,132 @@
+# UEX Multi-User Discord Bot Development Rules
+
+This document outlines the rules and guidelines for developing the UEX Multi-User Discord Bot. The goal is to create a secure, self-hostable bot that serves multiple users with encrypted credential storage and privacy options.
+
+## 1. Core Goal & Philosophy
+
+- **Primary Objective**: Build a Node.js application that any admin can deploy to serve multiple users securely.
+- **Multi-User Design**: One bot deployment serves multiple users. Each user registers their own UEX credentials which are encrypted and isolated.
+- **Security First**: All user credentials are encrypted with AES-256. Users can only access their own data. Bank-level security standards.
+- **Privacy Options**: Users can achieve privacy through Discord's permission system (private servers, private channels, ephemeral commands).
+- **Technology**: The stack is Node.js, `discord.js` v14, `express`, `dotenv`, and `crypto` for encryption.
+
+## 2. Architecture
+
+- **Application Type**: A persistent, long-running Node.js server, NOT serverless functions.
+- **Main Components**:
+    1.  **Express Server**: Listens for incoming HTTP requests.
+        - It MUST have a `/health` endpoint for monitoring.
+        - It MUST have a `/webhook/uex` endpoint to receive webhooks from UEX Corp.
+    2.  **Discord.js Client**: Connects to Discord's Gateway to handle slash commands and send messages.
+    3.  **User Manager**: Handles encrypted storage and retrieval of user credentials.
+- **Data Flow**:
+    - **User Registration**: `User uses /register command -> Credentials encrypted -> Stored in user_data/`
+    - **Command Execution**: `User sends command -> Bot decrypts their credentials -> Calls UEX API -> Returns result`
+    - **Incoming Webhook**: `UEX Corp -> POST /webhook/uex -> Webhook Handler -> Notifies relevant users`
+
+## 3. File Structure
+
+Adhere strictly to the following file structure. Do not create files outside of this structure unless specified.
+
+```
+/
+├── src/
+│   ├── bot.js              # Main entry point: Initializes Express and Discord client.
+│   ├── commands/           # Folder for all Discord slash commands.
+│   │   ├── register.js     # User registration command with credential encryption.
+│   │   ├── unregister.js   # User credential removal command.
+│   │   ├── reply.js        # UEX negotiation reply command.
+│   │   └── admin.js        # Admin commands (stats, info).
+│   ├── handlers/           # Logic for handling external interactions.
+│   │   ├── webhook.js      # Logic for the /webhook/uex endpoint. Notifies users.
+│   │   └── uex-api.js      # All functions for communicating with the UEX Corp API.
+│   └── utils/              # Shared helper functions.
+│       ├── config.js       # Loads and exports all environment variables using `dotenv`.
+│       ├── logger.js       # Simple logging utility.
+│       └── user-manager.js # User credential encryption, storage, and management.
+├── docs/                   # All user-facing documentation and deployment guides.
+├── user_data/              # Directory for encrypted user credential files (auto-created).
+├── .env.example            # Template for users to create their .env file.
+├── .gitignore              # Excludes user_data/ and .env from version control.
+├── package.json            # Project dependencies and scripts.
+└── README.md               # Main user guide with multi-user setup instructions.
+```
+
+## 4. Coding Standards & Patterns
+
+- **Asynchronous Operations**: Use `async/await` for all promises (e.g., Discord API calls, fetching from UEX API).
+- **Modularity**:
+    - Command logic MUST be in its own file within `src/commands/`.
+    - UEX API calls MUST be encapsulated in functions within `src/handlers/uex-api.js`.
+    - Webhook processing logic MUST be in `src/handlers/webhook.js`.
+    - User credential management MUST be in `src/utils/user-manager.js`.
+- **Security**:
+    - ALL user credentials MUST be encrypted using AES-256-GCM before storage.
+    - User data isolation MUST be enforced - users can only access their own data.
+    - Discord commands MUST use ephemeral responses for sensitive operations.
+- **Discord Interactions**:
+    - Use `discord.js` v14 builders for slash commands and embeds.
+    - Use `interaction.reply({ ephemeral: true })` for sensitive responses.
+    - Commands should work in DMs, private channels, and shared servers.
+- **Error Handling**: Implement `try...catch` blocks for all operations that can fail, especially API calls, encryption/decryption, and webhook processing. Log errors clearly.
+
+## 5. Environment Variables
+
+- **Source of Truth**: All configuration and secrets MUST come from environment variables, loaded by `src/utils/config.js`.
+- **No Hardcoding**: Never hardcode API tokens, secrets, or encryption keys.
+- **Required Variables**:
+    - `DISCORD_BOT_TOKEN`: The token for the Discord bot.
+    - `USER_ENCRYPTION_KEY`: 32-character random string for encrypting user credentials.
+    - `UEX_WEBHOOK_SECRET`: (Optional) For validating incoming webhooks from UEX Corp.
+    - `PORT`: The port for the Express server (often set by the hosting platform).
+
+## 6. User Management & Security
+
+- **User Registration**: 
+    - Users register with `/register api_token:TOKEN api_secret:SECRET`
+    - Credentials are immediately encrypted and stored in `user_data/USER_ID.json`
+    - Registration overwrites existing credentials if user re-registers
+- **Credential Storage**:
+    - Each user's data is stored in a separate encrypted file
+    - File format: `{ encryptedData: "...", iv: "..." }`
+    - Decrypted format: `{ apiToken: "...", apiSecret: "..." }`
+- **Data Isolation**:
+    - Users can only access negotiations with their own credentials
+    - No shared data between users
+    - Admin commands only show aggregate stats, not individual user data
+- **Privacy Options**:
+    - Private Discord servers (user creates own server, invites only the bot)
+    - Private channels with restricted permissions
+    - Ephemeral commands in shared servers
+
+## 7. Command Design
+
+- **Registration Commands**: Must be ephemeral to protect sensitive credentials
+- **Operational Commands**: Should work seamlessly whether in DMs, private channels, or shared servers
+- **Admin Commands**: Only accessible to users with appropriate Discord permissions
+- **Error Messages**: Clear, helpful, and never expose sensitive information
+
+## 8. Deployment & Documentation
+
+- **Start Script**: `package.json` must contain a `"start": "node src/bot.js"` script for production deployment.
+- **Local Development**: A `"dev": "nodemon src/bot.js"` script should be available for local testing.
+- **Documentation**: 
+    - Comprehensive deployment guides for popular hosting platforms (Render, Oracle Cloud, etc.)
+    - User registration and privacy setup instructions
+    - Troubleshooting guides for common issues
+    - All documentation belongs in the `docs/` directory or the main `README.md`
+
+## 9. Data Persistence
+
+- **File-Based Storage**: User credentials stored as encrypted JSON files in `user_data/` directory
+- **No Database Required**: Keeps deployment simple and cost-free
+- **Automatic Directory Creation**: `user_data/` directory created automatically if it doesn't exist
+- **Backup Considerations**: Users should backup their encryption key and user_data directory
+
+## 10. Hosting Platform Compatibility
+
+- **Platform Agnostic**: Code must work on any Node.js hosting platform
+- **Environment Variable Support**: Rely on platform-provided environment variable systems
+- **Auto-Sleep Friendly**: Bot must handle sleep/wake cycles gracefully
+- **Health Checks**: `/health` endpoint for platform monitoring
+- **Zero Configuration**: No complex setup requirements beyond environment variables 
