@@ -334,6 +334,10 @@ async function getMarketplaceListings(filters = {}) {
     if (filters.id) queryParams.append('id', filters.id);
     if (filters.slug) queryParams.append('slug', filters.slug);
     if (filters.username) queryParams.append('username', filters.username);
+    // Support additional filters if provided
+    if (filters.operation) queryParams.append('operation', filters.operation);
+    // Some callers may pass item type text; API expects slug/id. Keep for forward-compat.
+    if (filters.type) queryParams.append('type', filters.type);
     
     const url = `${config.UEX_API_BASE_URL}/marketplace_listings/${queryParams.toString() ? '?' + queryParams.toString() : ''}`;
     
@@ -360,6 +364,61 @@ async function getMarketplaceListings(filters = {}) {
     logger.error('Error fetching marketplace listings', { error: error.message });
     return { success: false, error: error.message };
   }
+}
+
+// In-memory cache for lightweight autocomplete suggestions
+const _autocompleteCache = {
+  lastFetch: 0,
+  listings: []
+};
+
+/**
+ * Get autocomplete suggestions for marketplace related inputs
+ * Pulls recent listings and extracts unique slugs and usernames
+ * @param {string} query - Partial user input
+ * @param {('item'|'username')} kind - Suggestion type
+ * @param {number} [limit=25] - Max number of suggestions
+ * @returns {Promise<string[]>}
+ */
+async function getMarketplaceAutocompleteSuggestions(query, kind, limit = 25) {
+  const now = Date.now();
+  const TTL_MS = 5 * 60 * 1000; // 5 minutes
+
+  // Refresh cache if stale
+  if (now - _autocompleteCache.lastFetch > TTL_MS || _autocompleteCache.listings.length === 0) {
+    try {
+      const res = await getMarketplaceListings({});
+      if (res.success) {
+        _autocompleteCache.listings = Array.isArray(res.data) ? res.data : [];
+        _autocompleteCache.lastFetch = now;
+      }
+    } catch (e) {
+      // Swallow errors here; just return empty suggestions
+    }
+  }
+
+  const q = (query || '').toLowerCase();
+  const values = new Set();
+
+  for (const l of _autocompleteCache.listings) {
+    if (kind === 'item') {
+      // Prefer slug; fallback to title/type
+      const candidates = [l.slug, l.title, l.type].filter(Boolean);
+      for (const c of candidates) {
+        const s = String(c);
+        if (!q || s.toLowerCase().includes(q)) values.add(s);
+      }
+    } else if (kind === 'username') {
+      const candidates = [l.user_username, l.username].filter(Boolean);
+      for (const c of candidates) {
+        const s = String(c);
+        if (!q || s.toLowerCase().includes(q)) values.add(s);
+      }
+    }
+    if (values.size >= limit) break;
+  }
+
+  return Array.from(values).slice(0, limit);
 }
 
 /**
@@ -524,6 +583,7 @@ module.exports = {
   getUserProfile,
   getNegotiationDetails,
   getMarketplaceListings,
+  getMarketplaceAutocompleteSuggestions,
   createMarketplaceListing,
   getMarketplaceNegotiations
 }; 

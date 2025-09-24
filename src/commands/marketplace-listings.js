@@ -15,6 +15,7 @@ module.exports = {
       option
         .setName('username')
         .setDescription('Filter by specific username')
+        .setAutocomplete(true)
         .setRequired(false)
     )
     .addStringOption(option =>
@@ -31,7 +32,8 @@ module.exports = {
     .addStringOption(option =>
       option
         .setName('item_type')
-        .setDescription('Filter by item type/name')
+        .setDescription('Filter by item name or slug')
+        .setAutocomplete(true)
         .setRequired(false)
     )
     .addIntegerOption(option =>
@@ -63,7 +65,8 @@ module.exports = {
       const filters = {};
       if (username) filters.username = username;
       if (operation) filters.operation = operation;
-      if (itemType) filters.type = itemType;
+      // Map item_type input to slug-based filtering as supported by API
+      if (itemType) filters.slug = itemType;
 
       // Fetch marketplace listings
       const result = await uexAPI.getMarketplaceListings(filters);
@@ -109,9 +112,9 @@ module.exports = {
           .setFooter({ text: 'UEX Marketplace' })
           .setTimestamp();
 
-        await interaction.editReply({ embeds: [noResultsEmbed] });
-        return;
-      }
+      await interaction.editReply({ embeds: [noResultsEmbed] });
+      return;
+    }
 
       // Calculate pagination
       const totalPages = Math.ceil(allListings.length / itemsPerPage);
@@ -355,6 +358,33 @@ module.exports = {
         logger.error('Failed to send marketplace listings error reply', { error: replyError.message });
       }
     }
+  },
+
+  // Autocomplete handler for username and item_type
+  async autocomplete(interaction) {
+    try {
+      const focused = interaction.options.getFocused(true);
+      const value = focused.value || '';
+
+      if (focused.name === 'username') {
+        const suggestions = await uexAPI.getMarketplaceAutocompleteSuggestions(value, 'username', 25);
+        const choices = suggestions.map(s => ({ name: s, value: s })).slice(0, 25);
+        await interaction.respond(choices);
+        return;
+      }
+
+      if (focused.name === 'item_type') {
+        const suggestions = await uexAPI.getMarketplaceAutocompleteSuggestions(value, 'item', 25);
+        const choices = suggestions.map(s => ({ name: s, value: s })).slice(0, 25);
+        await interaction.respond(choices);
+        return;
+      }
+
+      await interaction.respond([]);
+    } catch (error) {
+      logger.warn('Autocomplete failed for marketplace-listings', { error: error.message });
+      try { await interaction.respond([]); } catch {}
+    }
   }
 };
 
@@ -365,7 +395,7 @@ function getFilterDescription(filters) {
   const parts = [];
   if (filters.username) parts.push(`by **${filters.username}**`);
   if (filters.operation) parts.push(`operation: **${filters.operation}**`);
-  if (filters.type) parts.push(`item: **${filters.type}**`);
+  if (filters.slug) parts.push(`item: **${filters.slug}**`);
   
   return parts.length > 0 ? `(${parts.join(', ')})` : '';
 }

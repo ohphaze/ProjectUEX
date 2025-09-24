@@ -145,6 +145,21 @@ client.on('interactionCreate', async interaction => {
     return;
   }
 
+  // Handle autocomplete interactions
+  if (interaction.isAutocomplete()) {
+    const command = client.commands.get(interaction.commandName);
+    if (!command || typeof command.autocomplete !== 'function') {
+      return;
+    }
+    try {
+      await command.autocomplete(interaction);
+    } catch (error) {
+      logger.warn(`Autocomplete error for ${interaction.commandName}`, { error: error.message });
+      try { await interaction.respond([]); } catch {}
+    }
+    return;
+  }
+
   // Handle button interactions
   if (interaction.isButton()) {
     try {

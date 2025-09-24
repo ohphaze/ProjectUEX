@@ -17,8 +17,9 @@ ProjectUEX is a comprehensive, self-hostable Discord bot for **UEX Corp marketpl
 ## 🛒 Marketplace Features
 
 ### **📋 Browse & Discover**
-- **`/marketplace-listings`** - Browse all marketplace listings with advanced filters
+- **`/marketplace-listings`** - Browse all marketplace listings with advanced filters (now with autocomplete)
 - **Pagination Support** - Navigate through thousands of listings (6 per page)
+- **Smart Autocomplete** - Username and item suggestions pulled live from UEX
 - **Operation Filters** - Filter by WTS (sell), WTB (buy), or Trading listings
 - **Item Discovery** - View item slugs and IDs to copy for searches
 - **Rich Market Data** - Price changes, popularity metrics, trader ratings, expiration dates
@@ -144,7 +145,7 @@ npm start
 1. **Health Check**: Visit `http://localhost:3000/health`
 2. **Discord Commands**: Try `/help` in Discord
 3. **User Registration**: Use `/register` with your UEX credentials
-4. **Marketplace**: Try `/marketplace-listings` to browse
+4. **Marketplace**: Try `/marketplace-listings` to browse. Start typing in `username` or `item_type` to see suggestions.
 
 ---
 
