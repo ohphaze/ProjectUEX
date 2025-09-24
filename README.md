@@ -1,6 +1,6 @@
-# UEX Multi-User Discord Bot
+# ProjectUEX Multi-User Discord Bot
 
-A comprehensive, self-hostable Discord bot for **UEX Corp marketplace trading and negotiations**. One deployment serves unlimited users with bank-level security and complete privacy options.
+ProjectUEX is a comprehensive, self-hostable Discord bot for **UEX Corp marketplace trading and negotiations**. One deployment serves unlimited users with bank-level security and complete privacy options.
 
 ## 🎯 What This Bot Does
 
@@ -13,12 +13,6 @@ A comprehensive, self-hostable Discord bot for **UEX Corp marketplace trading an
 - **💰 Free Forever**: Deploy once on free hosting platforms, serve unlimited users
 
 ## 🚀 Quick Start
-
-### **🤖 Invite Automatix to Your Server**
-Ready to use Automatix? [**Invite Automatix to your Discord server**](https://discord.com/oauth2/authorize?client_id=1229684801213042708&permissions=2147551232&integration_type=0&scope=bot) and start trading on the UEX marketplace immediately!
-
-### **🌍 Join Our Community Server**
-Want to try Automatix first? [**Join our Discord server**](https://discord.gg/f36UX9bQG4) where Automatix is already available and ready to use!
 
 ## 🛒 Marketplace Features
 
