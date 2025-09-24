@@ -349,13 +349,15 @@ async function getMarketplaceListings(filters = {}) {
     });
 
     const responseData = await response.json();
+    const payload = responseData?.data;
+    const asArray = Array.isArray(payload) ? payload : (payload ? [payload] : []);
     logger.uex('Marketplace listings response', { 
       status: response.status, 
-      count: responseData.data?.length || 0 
+      count: Array.isArray(payload) ? payload.length : (payload ? 1 : 0)
     });
 
     if (response.ok) {
-      return { success: true, data: responseData.data || [] };
+      return { success: true, data: asArray };
     } else {
       return { success: false, error: responseData.message || 'Failed to fetch marketplace listings' };
     }
@@ -419,6 +421,90 @@ async function getMarketplaceAutocompleteSuggestions(query, kind, limit = 25) {
   }
 
   return Array.from(values).slice(0, limit);
+}
+
+function _slugify(text) {
+  return String(text || '')
+    .toLowerCase()
+    .trim()
+    .replace(/['"`]/g, '')
+    .replace(/[^a-z0-9]+/g, '-')
+    .replace(/(^-|-$)/g, '');
+}
+
+/**
+ * Item autocomplete returning Discord-friendly choices
+ * @param {string} query
+ * @param {number} [limit=25]
+ * @returns {Promise<Array<{name:string,value:string}>>}
+ */
+async function getMarketplaceItemAutocomplete(query, limit = 25) {
+  const base = await getMarketplaceAutocompleteSuggestions(query, 'item', limit * 2);
+  const lower = (query || '').toLowerCase();
+  const seen = new Set();
+  const out = [];
+
+  const pushSimple = (label, slug) => {
+    const name = label || slug;
+    const value = `slug::${slug || _slugify(label)}`;
+    if (!name || !value) return;
+    const key = `${name}::${value}`;
+    if (seen.has(key)) return;
+    seen.add(key);
+    out.push({ name, value });
+  };
+
+  // From cache-derived strings (titles/slugs), provide slug-based values
+  for (const s of base) {
+    if (s.includes(' ')) {
+      pushSimple(s, _slugify(s));
+    } else {
+      pushSimple(s, s);
+    }
+    if (out.length >= limit) return out.slice(0, limit);
+  }
+
+  // Live fetch by slugified query to improve recall for exact items
+  if ((out.length < limit) && lower.length >= 3) {
+    const candidates = new Set([_slugify(query), query]);
+    for (const cand of candidates) {
+      try {
+        const res = await getMarketplaceListings({ slug: cand });
+        if (res.success && Array.isArray(res.data)) {
+          for (const l of res.data) {
+            const name = l.title || l.type || l.slug || String(l.id_item || l.id);
+            const value = `slug::${l.slug || _slugify(name)}${(l.id_item || l.id) ? `||id::${l.id_item || l.id}` : ''}`;
+            const key = `${name}::${value}`;
+            if (!seen.has(key)) {
+              seen.add(key);
+              out.push({ name, value });
+            }
+            if (out.length >= limit) break;
+          }
+        }
+      } catch {}
+      if (out.length >= limit) break;
+      // Try type param (best-effort; may be ignored by API)
+      try {
+        const resType = await getMarketplaceListings({ type: cand });
+        if (resType.success && Array.isArray(resType.data)) {
+          for (const l of resType.data) {
+            const name = l.title || l.type || l.slug || String(l.id_item || l.id);
+            const value = `slug::${l.slug || _slugify(name)}${(l.id_item || l.id) ? `||id::${l.id_item || l.id}` : ''}`;
+            const key = `${name}::${value}`;
+            if (!seen.has(key)) {
+              seen.add(key);
+              out.push({ name, value });
+            }
+            if (out.length >= limit) break;
+          }
+        }
+      } catch {}
+      if (out.length >= limit) break;
+    }
+  }
+
+  return out.slice(0, limit);
 }
 
 /**
@@ -583,6 +669,7 @@ module.exports = {
   getUserProfile,
   getNegotiationDetails,
   getMarketplaceListings,
+  getMarketplaceItemAutocomplete,
   getMarketplaceAutocompleteSuggestions,
   createMarketplaceListing,
   getMarketplaceNegotiations

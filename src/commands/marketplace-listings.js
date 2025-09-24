@@ -65,11 +65,14 @@ module.exports = {
       const filters = {};
       if (username) filters.username = username;
       if (operation) filters.operation = operation;
-      // Map item_type input to slug-based filtering as supported by API
-      if (itemType) filters.slug = itemType;
+      // Parse item selection value; supports raw slug or encoded forms like "slug::foo||id::123"
+      if (itemType) {
+        const parsed = parseSelectedItem(itemType);
+        Object.assign(filters, parsed);
+      }
 
       // Fetch marketplace listings
-      const result = await uexAPI.getMarketplaceListings(filters);
+      let result = await uexAPI.getMarketplaceListings(filters);
 
       if (!result.success) {
         const errorEmbed = new EmbedBuilder()
@@ -90,7 +93,30 @@ module.exports = {
         return;
       }
 
-      const allListings = result.data || [];
+      let allListings = Array.isArray(result.data) ? result.data : (result.data ? [result.data] : []);
+
+      // Fallbacks if slug returns no results
+      if (allListings.length === 0 && filters.slug) {
+        // Try trimming potential random suffix at the end of slug
+        const baseSlug = filters.slug.replace(/-[a-zA-Z0-9]{6,}$/, '');
+        if (baseSlug !== filters.slug) {
+          const alt = await uexAPI.getMarketplaceListings({ slug: baseSlug, operation: filters.operation, username: filters.username });
+          if (alt.success && Array.isArray(alt.data) && alt.data.length > 0) {
+            result = alt;
+            allListings = alt.data;
+          }
+        }
+      }
+
+      // Try a type-based fallback if still empty
+      if (allListings.length === 0 && (filters.slug || itemType)) {
+        const typeQuery = (filters.slug || itemType || '').toString().replace(/^slug::/, '').replace(/\|\|.*$/, '');
+        const alt2 = await uexAPI.getMarketplaceListings({ type: typeQuery, operation: filters.operation, username: filters.username });
+        if (alt2.success && Array.isArray(alt2.data) && alt2.data.length > 0) {
+          result = alt2;
+          allListings = alt2.data;
+        }
+      }
 
       if (allListings.length === 0) {
         const noResultsEmbed = new EmbedBuilder()
@@ -117,7 +143,7 @@ module.exports = {
     }
 
       // Calculate pagination
-      const totalPages = Math.ceil(allListings.length / itemsPerPage);
+      const totalPages = Math.max(1, Math.ceil(allListings.length / itemsPerPage));
       const startIndex = (page - 1) * itemsPerPage;
       const endIndex = Math.min(startIndex + itemsPerPage, allListings.length);
       const currentListings = allListings.slice(startIndex, endIndex);
@@ -374,9 +400,8 @@ module.exports = {
       }
 
       if (focused.name === 'item_type') {
-        const suggestions = await uexAPI.getMarketplaceAutocompleteSuggestions(value, 'item', 25);
-        const choices = suggestions.map(s => ({ name: s, value: s })).slice(0, 25);
-        await interaction.respond(choices);
+        const choices = await uexAPI.getMarketplaceItemAutocomplete(value, 25);
+        await interaction.respond(choices.slice(0, 25));
         return;
       }
 
@@ -396,6 +421,7 @@ function getFilterDescription(filters) {
   if (filters.username) parts.push(`by **${filters.username}**`);
   if (filters.operation) parts.push(`operation: **${filters.operation}**`);
   if (filters.slug) parts.push(`item: **${filters.slug}**`);
+  if (filters.id) parts.push(`id: **${filters.id}**`);
   
   return parts.length > 0 ? `(${parts.join(', ')})` : '';
 }
@@ -416,4 +442,19 @@ function decodeFilters(encoded) {
   } catch {
     return {};
   }
-} 
+}
+
+function parseSelectedItem(value) {
+  const out = {};
+  if (!value) return out;
+  // Support encoded values like "slug::foo||id::123"
+  const idMatch = value.match(/\bid::([^|]+)/);
+  const slugMatch = value.match(/\bslug::([^|]+)/);
+  if (idMatch) out.id = idMatch[1];
+  if (slugMatch) out.slug = slugMatch[1];
+  if (!idMatch && !slugMatch) {
+    // Backward compatibility: value is raw slug
+    out.slug = value;
+  }
+  return out;
+}
