@@ -23,8 +23,7 @@ module.exports = {
         .setRequired(false)
         .addChoices(
           { name: 'Want to Sell (WTS)', value: 'sell' },
-          { name: 'Want to Buy (WTB)', value: 'buy' },
-          { name: 'Trading', value: 'trade' }
+          { name: 'Want to Buy (WTB)', value: 'buy' }
         )
     )
     .addStringOption(option =>
@@ -71,8 +70,8 @@ module.exports = {
         if (parsed.slug) filters.slug = parsed.slug;
       }
 
-      // Fetch listings
-      let result = await uexAPI.getMarketplaceListings(filters);
+      // Fetch listings (request a reasonable server-side page if supported)
+      let result = await uexAPI.getMarketplaceListings({ ...filters, page: 1, limit: 50 });
       if (!result.success) {
         await interaction.editReply({ embeds: [
           new EmbedBuilder()
@@ -293,3 +292,13 @@ function parseSelectedItem(value) {
   return out;
 }
 
+/**
+ * Decode filters from button custom IDs
+ */
+function decodeFilters(encoded) {
+  try {
+    return JSON.parse(Buffer.from(encoded, 'base64').toString());
+  } catch {
+    return {};
+  }
+}

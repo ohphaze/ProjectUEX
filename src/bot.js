@@ -12,6 +12,7 @@ const config = require('./utils/config');
 const logger = require('./utils/logger');
 const webhookHandler = require('./handlers/webhook');
 const buttonHandler = require('./handlers/button-interactions');
+const itemSuggestions = require('./utils/item-suggestions');
 
 // Initialize Discord client
 const client = new Client({
@@ -145,16 +146,18 @@ client.on('interactionCreate', async interaction => {
     return;
   }
 
-  // Handle autocomplete interactions
-  if (interaction.isAutocomplete()) {
+  // Handle autocomplete interactions (delegate to command.autocomplete if available)
+  if (interaction.isAutocomplete && interaction.isAutocomplete()) {
     const command = client.commands.get(interaction.commandName);
-    if (!command || typeof command.autocomplete !== 'function') {
-      return;
-    }
-    try {
-      await command.autocomplete(interaction);
-    } catch (error) {
-      logger.warn(`Autocomplete error for ${interaction.commandName}`, { error: error.message });
+    if (command && typeof command.autocomplete === 'function') {
+      try {
+        await command.autocomplete(interaction);
+      } catch (error) {
+        logger.warn(`Autocomplete error for ${interaction.commandName}`, { error: error.message });
+        try { await interaction.respond([]); } catch {}
+      }
+    } else {
+      // Fallback: no autocomplete defined for this command
       try { await interaction.respond([]); } catch {}
     }
     return;

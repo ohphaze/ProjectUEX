@@ -323,7 +323,7 @@ async function getNegotiationDetails(negotiationHash, credentials) {
 
 /**
  * Get marketplace listings
- * @param {object} filters - Optional filters {id, slug, username}
+ * @param {object} filters - Optional filters {id, slug, username, operation, type, page, limit}
  * @returns {Promise<{success: boolean, data?: array, error?: string}>}
  */
 async function getMarketplaceListings(filters = {}) {
@@ -334,12 +334,14 @@ async function getMarketplaceListings(filters = {}) {
     if (filters.id) queryParams.append('id', filters.id);
     if (filters.slug) queryParams.append('slug', filters.slug);
     if (filters.username) queryParams.append('username', filters.username);
-    // Support additional filters if provided
+    // Include additional filters supported by the bot/UEX API
     if (filters.operation) queryParams.append('operation', filters.operation);
-    // Some callers may pass item type text; API expects slug/id. Keep for forward-compat.
     if (filters.type) queryParams.append('type', filters.type);
+    if (filters.page) queryParams.append('page', String(filters.page));
+    if (filters.limit) queryParams.append('limit', String(filters.limit));
     
-    const url = `${config.UEX_API_BASE_URL}/marketplace_listings/${queryParams.toString() ? '?' + queryParams.toString() : ''}`;
+    // Use no trailing slash for GET with query params to avoid servers ignoring filters
+    const url = `${config.UEX_API_BASE_URL}/marketplace_listings${queryParams.toString() ? '?' + queryParams.toString() : ''}`;
     
     const response = await fetch(url, {
       method: 'GET',
