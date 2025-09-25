@@ -5,6 +5,7 @@
 
 const config = require('../utils/config');
 const logger = require('../utils/logger');
+const localItemSuggestions = require('../utils/item-suggestions');
 
 /**
  * Send a reply message to a UEX negotiation
@@ -422,7 +423,16 @@ async function getMarketplaceAutocompleteSuggestions(query, kind, limit = 25) {
     if (values.size >= limit) break;
   }
 
-  return Array.from(values).slice(0, limit);
+  // Order suggestions to prefer prefix matches, then earlier occurrences, then shorter strings
+  const scored = Array.from(values).map((s) => {
+    const ls = s.toLowerCase();
+    const idx = ls.indexOf(q);
+    const score = (idx === 0 ? 0 : 1) + (idx === -1 ? 999 : idx / 100); // prefix wins, then earliest index
+    return { s, score, len: s.length };
+  });
+
+  scored.sort((a, b) => a.score - b.score || a.len - b.len || a.s.localeCompare(b.s));
+  return scored.slice(0, limit).map(x => x.s);
 }
 
 function _slugify(text) {
@@ -441,33 +451,41 @@ function _slugify(text) {
  * @returns {Promise<Array<{name:string,value:string}>>}
  */
 async function getMarketplaceItemAutocomplete(query, limit = 25) {
-  const base = await getMarketplaceAutocompleteSuggestions(query, 'item', limit * 2);
   const lower = (query || '').toLowerCase();
   const seen = new Set();
   const out = [];
 
-  const pushSimple = (label, slug) => {
-    const name = label || slug;
-    const value = slug || _slugify(label);
-    if (!name || !value) return;
-    const key = `${name}::${value}`;
+  const pushChoice = (label, value) => {
+    const name = label || value;
+    const v = value || _slugify(label);
+    if (!name || !v) return;
+    const key = `${name.toLowerCase()}::${v.toLowerCase()}`;
     if (seen.has(key)) return;
     seen.add(key);
-    out.push({ name, value });
+    out.push({ name, value: v });
   };
 
-  // From cache-derived strings (titles/slugs), provide slug-based values
-  for (const s of base) {
-    if (s.includes(' ')) {
-      pushSimple(s, _slugify(s));
-    } else {
-      pushSimple(s, s);
+  // 1) Start with API-derived strings filtered and scored by query
+  try {
+    const base = await getMarketplaceAutocompleteSuggestions(query, 'item', limit * 3);
+    for (const s of base) {
+      const val = s.includes(' ') ? _slugify(s) : s;
+      pushChoice(s, val);
+      if (out.length >= limit) break;
     }
-    if (out.length >= limit) return out.slice(0, limit);
+  } catch {}
+
+  // 2) Fallback to local suggestions for responsiveness or when API is empty
+  if (out.length < limit) {
+    const local = localItemSuggestions.getSuggestions(query);
+    for (const c of local) {
+      pushChoice(c.name, c.value);
+      if (out.length >= limit) break;
+    }
   }
 
-  // Live fetch by slugified query to improve recall for exact items
-  if ((out.length < limit) && lower.length >= 3) {
+  // 3) Live fetch for narrow queries to surface exact matches
+  if (out.length < limit && lower.length >= 3) {
     const candidates = new Set([_slugify(query), query]);
     for (const cand of candidates) {
       try {
@@ -476,28 +494,19 @@ async function getMarketplaceItemAutocomplete(query, limit = 25) {
           for (const l of res.data) {
             const name = l.title || l.type || l.slug || String(l.id_item || l.id);
             const value = l.slug || _slugify(name);
-            const key = `${name}::${value}`;
-            if (!seen.has(key)) {
-              seen.add(key);
-              out.push({ name, value });
-            }
+            pushChoice(name, value);
             if (out.length >= limit) break;
           }
         }
       } catch {}
       if (out.length >= limit) break;
-      // Try type param (best-effort; may be ignored by API)
       try {
         const resType = await getMarketplaceListings({ type: cand });
         if (resType.success && Array.isArray(resType.data)) {
           for (const l of resType.data) {
             const name = l.title || l.type || l.slug || String(l.id_item || l.id);
             const value = l.slug || _slugify(name);
-            const key = `${name}::${value}`;
-            if (!seen.has(key)) {
-              seen.add(key);
-              out.push({ name, value });
-            }
+            pushChoice(name, value);
             if (out.length >= limit) break;
           }
         }
@@ -506,7 +515,19 @@ async function getMarketplaceItemAutocomplete(query, limit = 25) {
     }
   }
 
-  return out.slice(0, limit);
+  // 4) Final sort to prefer prefix matches for current query
+  const scored = out.map((c) => {
+    const ln = c.name.toLowerCase();
+    const lv = c.value.toLowerCase();
+    const idx = Math.min(ln.indexOf(lower), lv.indexOf(lower));
+    const normIdx = (idx === -1 ? 999 : idx / 100);
+    const pref = (ln.startsWith(lower) || lv.startsWith(lower)) ? 0 : 1;
+    return { c, score: pref + normIdx, len: ln.length };
+  });
+  scored.sort((a, b) => a.score - b.score || a.len - b.len || a.c.name.localeCompare(b.c.name));
+
+  // Ensure at most 25 as per Discord limits
+  return scored.slice(0, limit).map(x => x.c);
 }
 
 /**
