@@ -5,6 +5,7 @@
 
 const config = require('../utils/config');
 const logger = require('../utils/logger');
+const localItemSuggestions = require('../utils/item-suggestions');
 
 /**
  * Send a reply message to a UEX negotiation
@@ -323,7 +324,7 @@ async function getNegotiationDetails(negotiationHash, credentials) {
 
 /**
  * Get marketplace listings
- * @param {object} filters - Optional filters {id, slug, username}
+ * @param {object} filters - Optional filters {id, slug, username, operation, type, page, limit}
  * @returns {Promise<{success: boolean, data?: array, error?: string}>}
  */
 async function getMarketplaceListings(filters = {}) {
@@ -334,8 +335,14 @@ async function getMarketplaceListings(filters = {}) {
     if (filters.id) queryParams.append('id', filters.id);
     if (filters.slug) queryParams.append('slug', filters.slug);
     if (filters.username) queryParams.append('username', filters.username);
+    // Include additional filters supported by the bot/UEX API
+    if (filters.operation) queryParams.append('operation', filters.operation);
+    if (filters.type) queryParams.append('type', filters.type);
+    if (filters.page) queryParams.append('page', String(filters.page));
+    if (filters.limit) queryParams.append('limit', String(filters.limit));
     
-    const url = `${config.UEX_API_BASE_URL}/marketplace_listings/${queryParams.toString() ? '?' + queryParams.toString() : ''}`;
+    // Use no trailing slash for GET with query params to avoid servers ignoring filters
+    const url = `${config.UEX_API_BASE_URL}/marketplace_listings${queryParams.toString() ? '?' + queryParams.toString() : ''}`;
     
     const response = await fetch(url, {
       method: 'GET',
@@ -345,13 +352,15 @@ async function getMarketplaceListings(filters = {}) {
     });
 
     const responseData = await response.json();
+    const payload = responseData?.data;
+    const asArray = Array.isArray(payload) ? payload : (payload ? [payload] : []);
     logger.uex('Marketplace listings response', { 
       status: response.status, 
-      count: responseData.data?.length || 0 
+      count: Array.isArray(payload) ? payload.length : (payload ? 1 : 0)
     });
 
     if (response.ok) {
-      return { success: true, data: responseData.data || [] };
+      return { success: true, data: asArray };
     } else {
       return { success: false, error: responseData.message || 'Failed to fetch marketplace listings' };
     }
@@ -360,6 +369,167 @@ async function getMarketplaceListings(filters = {}) {
     logger.error('Error fetching marketplace listings', { error: error.message });
     return { success: false, error: error.message };
   }
+}
+
+// In-memory cache for lightweight autocomplete suggestions
+const _autocompleteCache = {
+  lastFetch: 0,
+  listings: []
+};
+
+/**
+ * Get autocomplete suggestions for marketplace related inputs
+ * Pulls recent listings and extracts unique slugs and usernames
+ * @param {string} query - Partial user input
+ * @param {('item'|'username')} kind - Suggestion type
+ * @param {number} [limit=25] - Max number of suggestions
+ * @returns {Promise<string[]>}
+ */
+async function getMarketplaceAutocompleteSuggestions(query, kind, limit = 25) {
+  const now = Date.now();
+  const TTL_MS = 5 * 60 * 1000; // 5 minutes
+
+  // Refresh cache if stale
+  if (now - _autocompleteCache.lastFetch > TTL_MS || _autocompleteCache.listings.length === 0) {
+    try {
+      const res = await getMarketplaceListings({});
+      if (res.success) {
+        _autocompleteCache.listings = Array.isArray(res.data) ? res.data : [];
+        _autocompleteCache.lastFetch = now;
+      }
+    } catch (e) {
+      // Swallow errors here; just return empty suggestions
+    }
+  }
+
+  const q = (query || '').toLowerCase();
+  const values = new Set();
+
+  for (const l of _autocompleteCache.listings) {
+    if (kind === 'item') {
+      // Prefer slug; fallback to title/type
+      const candidates = [l.slug, l.title, l.type].filter(Boolean);
+      for (const c of candidates) {
+        const s = String(c);
+        if (!q || s.toLowerCase().includes(q)) values.add(s);
+      }
+    } else if (kind === 'username') {
+      const candidates = [l.user_username, l.username].filter(Boolean);
+      for (const c of candidates) {
+        const s = String(c);
+        if (!q || s.toLowerCase().includes(q)) values.add(s);
+      }
+    }
+    if (values.size >= limit) break;
+  }
+
+  // Order suggestions to prefer prefix matches, then earlier occurrences, then shorter strings
+  const scored = Array.from(values).map((s) => {
+    const ls = s.toLowerCase();
+    const idx = ls.indexOf(q);
+    const score = (idx === 0 ? 0 : 1) + (idx === -1 ? 999 : idx / 100); // prefix wins, then earliest index
+    return { s, score, len: s.length };
+  });
+
+  scored.sort((a, b) => a.score - b.score || a.len - b.len || a.s.localeCompare(b.s));
+  return scored.slice(0, limit).map(x => x.s);
+}
+
+function _slugify(text) {
+  return String(text || '')
+    .toLowerCase()
+    .trim()
+    .replace(/['"`]/g, '')
+    .replace(/[^a-z0-9]+/g, '-')
+    .replace(/(^-|-$)/g, '');
+}
+
+/**
+ * Item autocomplete returning Discord-friendly choices
+ * @param {string} query
+ * @param {number} [limit=25]
+ * @returns {Promise<Array<{name:string,value:string}>>}
+ */
+async function getMarketplaceItemAutocomplete(query, limit = 25) {
+  const lower = (query || '').toLowerCase();
+  const seen = new Set();
+  const out = [];
+
+  const pushChoice = (label, value, kind = 'slug') => {
+    const name = label || value;
+    const vraw = value || _slugify(label);
+    const v = `${kind}::${encodeURIComponent(vraw)}|label::${encodeURIComponent(name)}`;
+    if (!name || !v) return;
+    const key = `${name.toLowerCase()}::${v.toLowerCase()}`;
+    if (seen.has(key)) return;
+    seen.add(key);
+    out.push({ name, value: v });
+  };
+
+  // 1) Start with API-derived strings filtered and scored by query
+  try {
+    const base = await getMarketplaceAutocompleteSuggestions(query, 'item', limit * 3);
+    for (const s of base) {
+      const val = s.includes(' ') ? _slugify(s) : s;
+      pushChoice(s, val, 'slug');
+      if (out.length >= limit) break;
+    }
+  } catch {}
+
+  // 2) Fallback to local suggestions for responsiveness or when API is empty
+  if (out.length < limit) {
+    const local = localItemSuggestions.getSuggestions(query);
+    for (const c of local) {
+      // Treat local suggestions as type-like hints
+      pushChoice(c.name, c.value, 'type');
+      if (out.length >= limit) break;
+    }
+  }
+
+  // 3) Live fetch for narrow queries to surface exact matches
+  if (out.length < limit && lower.length >= 3) {
+    const candidates = new Set([_slugify(query), query]);
+    for (const cand of candidates) {
+      try {
+        const res = await getMarketplaceListings({ slug: cand });
+        if (res.success && Array.isArray(res.data)) {
+          for (const l of res.data) {
+            const name = l.title || l.type || l.slug || String(l.id_item || l.id);
+            const value = l.slug || _slugify(name);
+            pushChoice(name, value, 'slug');
+            if (out.length >= limit) break;
+          }
+        }
+      } catch {}
+      if (out.length >= limit) break;
+      try {
+        const resType = await getMarketplaceListings({ type: cand });
+        if (resType.success && Array.isArray(resType.data)) {
+          for (const l of resType.data) {
+            const name = l.title || l.type || l.slug || String(l.id_item || l.id);
+            const value = l.slug || _slugify(name);
+            pushChoice(name, value, 'slug');
+            if (out.length >= limit) break;
+          }
+        }
+      } catch {}
+      if (out.length >= limit) break;
+    }
+  }
+
+  // 4) Final sort to prefer prefix matches for current query
+  const scored = out.map((c) => {
+    const ln = c.name.toLowerCase();
+    const lv = c.value.toLowerCase();
+    const idx = Math.min(ln.indexOf(lower), lv.indexOf(lower));
+    const normIdx = (idx === -1 ? 999 : idx / 100);
+    const pref = (ln.startsWith(lower) || lv.startsWith(lower)) ? 0 : 1;
+    return { c, score: pref + normIdx, len: ln.length };
+  });
+  scored.sort((a, b) => a.score - b.score || a.len - b.len || a.c.name.localeCompare(b.c.name));
+
+  // Ensure at most 25 as per Discord limits
+  return scored.slice(0, limit).map(x => x.c);
 }
 
 /**
@@ -524,6 +694,8 @@ module.exports = {
   getUserProfile,
   getNegotiationDetails,
   getMarketplaceListings,
+  getMarketplaceItemAutocomplete,
+  getMarketplaceAutocompleteSuggestions,
   createMarketplaceListing,
   getMarketplaceNegotiations
 }; 

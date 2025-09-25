@@ -839,11 +839,12 @@ async function handleListingsPaginationButton(interaction) {
       logger.warn('Failed to decode filters', { encodedFilters, error: error.message });
     }
 
-    // Build the command string to simulate command execution
+    // Build the command string to simulate command execution (for logs/debug)
     let commandParams = [`page:${pageNumber}`];
     if (filters.username) commandParams.push(`username:${filters.username}`);
     if (filters.operation) commandParams.push(`operation:${filters.operation}`);
-    if (filters.type) commandParams.push(`item_type:${filters.type}`);
+    if (filters.slug) commandParams.push(`item_type:${filters.slug}`);
+    else if (filters.type) commandParams.push(`item_type:${filters.type}`);
 
     await interaction.deferUpdate();
 
@@ -858,7 +859,7 @@ async function handleListingsPaginationButton(interaction) {
           switch (name) {
             case 'username': return filters.username || null;
             case 'operation': return filters.operation || null;
-            case 'item_type': return filters.type || null;
+            case 'item_type': return filters.slug || filters.type || null;
             default: return null;
           }
         },
@@ -921,7 +922,7 @@ async function handleRefreshListingsButton(interaction) {
           switch (name) {
             case 'username': return filters.username || null;
             case 'operation': return filters.operation || null;
-            case 'item_type': return filters.type || null;
+            case 'item_type': return filters.slug || filters.type || null;
             default: return null;
           }
         },
