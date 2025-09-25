@@ -65,9 +65,11 @@ module.exports = {
         clientOperationFilter = operation;
       }
 
+      let parsedItem = {};
       if (itemType) {
-        const parsed = parseSelectedItem(itemType);
-        if (parsed.slug) filters.slug = parsed.slug;
+        parsedItem = parseSelectedItem(itemType);
+        if (parsedItem.slug) filters.slug = parsedItem.slug;
+        if (parsedItem.type && !filters.slug) filters.type = parsedItem.type;
       }
 
       // Fetch listings (request a reasonable server-side page if supported)
@@ -98,6 +100,20 @@ module.exports = {
         }
       }
 
+      // If still empty and we have a type-based hint, try type fallback
+      if (listings.length === 0 && (parsedItem.type || parsedItem.label)) {
+        const typeQuery = parsedItem.type || slugify(parsedItem.label || '');
+        if (typeQuery) {
+          const byType = await uexAPI.getMarketplaceListings({ type: typeQuery, operation: filters.operation, username: filters.username });
+          if (byType.success && Array.isArray(byType.data) && byType.data.length > 0) {
+            listings = byType.data;
+            // Clear slug filter so downstream equality check doesn't remove items
+            delete filters.slug;
+            filters.type = typeQuery;
+          }
+        }
+      }
+
       // Client-side enforcement for filters that API may not apply strictly
       if (filters.slug && listings.length > 0) {
         const s = filters.slug.toLowerCase();
@@ -105,6 +121,10 @@ module.exports = {
           const ls = (l.slug || '').toLowerCase();
           return baseSlugUsed ? ls.startsWith(s) : ls === s;
         });
+      }
+      if (filters.type && listings.length > 0) {
+        const t = String(filters.type).toLowerCase();
+        listings = listings.filter(l => (String(l.type || l.title || '').toLowerCase().includes(t)) || (String(l.slug || '').toLowerCase().includes(t)));
       }
       if (username && listings.length > 0) {
         const u = username.toLowerCase();
@@ -272,6 +292,7 @@ function getFilterDescription(filters) {
   if (filters.username) parts.push(`by **${filters.username}**`);
   if (filters.operation) parts.push(`operation: **${filters.operation}**`);
   if (filters.slug) parts.push(`item: **${filters.slug}**`);
+  if (filters.type) parts.push(`type: **${filters.type}**`);
   return parts.length > 0 ? `(${parts.join(', ')})` : '';
 }
 
@@ -286,10 +307,23 @@ function parseSelectedItem(value) {
   if (!value) return out;
   const idMatch = value.match(/\bid::([^|]+)/);
   const slugMatch = value.match(/\bslug::([^|]+)/);
-  if (idMatch) out.id = idMatch[1];
-  if (slugMatch) out.slug = slugMatch[1];
-  if (!idMatch && !slugMatch) out.slug = value;
+  const typeMatch = value.match(/\btype::([^|]+)/);
+  const labelMatch = value.match(/\blabel::([^|]+)/);
+  if (idMatch) out.id = decodeURIComponent(idMatch[1]);
+  if (slugMatch) out.slug = decodeURIComponent(slugMatch[1]);
+  if (typeMatch) out.type = decodeURIComponent(typeMatch[1]);
+  if (labelMatch) out.label = decodeURIComponent(labelMatch[1]);
+  if (!idMatch && !slugMatch && !typeMatch) out.slug = value;
   return out;
+}
+
+function slugify(text) {
+  return String(text || '')
+    .toLowerCase()
+    .trim()
+    .replace(/["'`]/g, '')
+    .replace(/[^a-z0-9]+/g, '-')
+    .replace(/(^-|-$)/g, '');
 }
 
 /**

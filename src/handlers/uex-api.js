@@ -455,9 +455,10 @@ async function getMarketplaceItemAutocomplete(query, limit = 25) {
   const seen = new Set();
   const out = [];
 
-  const pushChoice = (label, value) => {
+  const pushChoice = (label, value, kind = 'slug') => {
     const name = label || value;
-    const v = value || _slugify(label);
+    const vraw = value || _slugify(label);
+    const v = `${kind}::${encodeURIComponent(vraw)}|label::${encodeURIComponent(name)}`;
     if (!name || !v) return;
     const key = `${name.toLowerCase()}::${v.toLowerCase()}`;
     if (seen.has(key)) return;
@@ -470,7 +471,7 @@ async function getMarketplaceItemAutocomplete(query, limit = 25) {
     const base = await getMarketplaceAutocompleteSuggestions(query, 'item', limit * 3);
     for (const s of base) {
       const val = s.includes(' ') ? _slugify(s) : s;
-      pushChoice(s, val);
+      pushChoice(s, val, 'slug');
       if (out.length >= limit) break;
     }
   } catch {}
@@ -479,7 +480,8 @@ async function getMarketplaceItemAutocomplete(query, limit = 25) {
   if (out.length < limit) {
     const local = localItemSuggestions.getSuggestions(query);
     for (const c of local) {
-      pushChoice(c.name, c.value);
+      // Treat local suggestions as type-like hints
+      pushChoice(c.name, c.value, 'type');
       if (out.length >= limit) break;
     }
   }
@@ -494,7 +496,7 @@ async function getMarketplaceItemAutocomplete(query, limit = 25) {
           for (const l of res.data) {
             const name = l.title || l.type || l.slug || String(l.id_item || l.id);
             const value = l.slug || _slugify(name);
-            pushChoice(name, value);
+            pushChoice(name, value, 'slug');
             if (out.length >= limit) break;
           }
         }
@@ -506,7 +508,7 @@ async function getMarketplaceItemAutocomplete(query, limit = 25) {
           for (const l of resType.data) {
             const name = l.title || l.type || l.slug || String(l.id_item || l.id);
             const value = l.slug || _slugify(name);
-            pushChoice(name, value);
+            pushChoice(name, value, 'slug');
             if (out.length >= limit) break;
           }
         }
